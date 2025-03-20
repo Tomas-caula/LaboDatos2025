@@ -1,0 +1,171 @@
+# -*- coding: utf-8 -*-
+"""
+Editor de Spyder
+
+Este es un archivo temporal.
+"""
+
+import random
+
+def pertenece(lista, elem):
+    
+    for elemento in lista:
+        
+        if elemento == elem:
+            
+            return True
+    
+    return False
+
+
+def get_length(lista):
+    cont = 0
+    for i in lista:
+        cont +=1
+    return cont
+
+def mas_larga(lista1, lista2):
+    if get_length(lista1) > get_length(lista2):
+        return lista1
+    else:
+        return lista2
+    
+def mas_corta(lista1, lista2):
+    if get_length(lista1) < get_length(lista2):
+        return lista1
+    else:
+        return lista2
+
+    
+def aux_mezclar(cadena1, cadena2):
+    
+    res = ""
+    
+    for i in range(len(mas_corta(cadena1, cadena2))):
+        
+        res += cadena1[i]
+        res += cadena2[i]
+    
+        if i == len(mas_corta(cadena1, cadena2)) - 1:    
+            
+            res += mas_larga(cadena1, cadena2)[i+1:]
+    
+    return res
+    
+
+def mezclar(cadena1 :str, cadena2):
+    res = ""
+    count = 0
+    while len(cadena1) > count and len(cadena2) > count:
+        res += cadena1[count] 
+        res += cadena2[count]
+        count += 1
+    res+= cadena1[count:]
+    res+= cadena2[count:]
+    print(res)
+    return res
+    
+
+
+mezclar("Pepe", "Josefa")
+
+
+def monto_total():
+    
+    print (2684,11 * 30 * 12)
+
+
+def b(pago_extra, cant):
+    
+    cantidad = cant
+    meses = 0
+    
+    for i in range(12):
+        
+        cant -=  pago_extra
+        meses += 1
+        cantidad = cantidad * (1 + ((1+0.05)**12))
+        
+    while cant >= 0:
+        
+        cant -=  2684.11
+        meses += 1
+        cantidad = cantidad * (1 + ((1+0.05)**12))
+        
+        
+    print(meses)
+        
+
+def escalera(lista):
+    
+    lista.sort()
+
+    for i in range(len(lista)-1):
+    
+        if lista[i+1] != lista[i] + 1:
+            return False
+        
+    return True
+
+
+def cant_reps(elem, lista):
+    
+    res = 0
+    for i in range(len(lista)):
+        
+        if lista[i] == elem:
+           res += 1
+           
+    return res
+
+def poker(lista):
+
+    
+    for i in range(len(lista)-1):
+        
+        if cant_reps(lista[i], lista) == 4:
+            return True
+        
+    return False
+
+def generala(lista):
+
+    
+    for i in range(len(lista)-1):
+        
+        if cant_reps(lista[i], lista) == 5:
+            return True
+        
+    return False
+
+def full(lista):
+    deTres = False
+    deDos = False
+    for elem in lista:
+        if cant_reps(elem, lista) == 3:
+            deTres = True
+        elif cant_reps(elem, lista) == 2:
+            deDos = True
+    return deTres and deDos
+        
+def generala_tirar():
+    
+    lista = []
+
+    for i in range(5):
+        
+         lista.append(random.randint(1,6))
+         
+    print(lista)
+    if escalera(lista):
+        print("escalera")
+    elif poker(lista):
+        print("Poker")
+    elif generala(lista):
+        print ("Generala")
+    elif full(lista):
+        print("full")
+    else:
+        print("Upss....")
+        
+    
