@@ -39,7 +39,7 @@ public class Recordatorio {
     public boolean equals(Object otro) {
         if (otro != null && otro.getClass() == this.getClass()){
             Recordatorio cp = (Recordatorio) otro;
-            if(cp.mensaje == this.mensaje && cp.fecha == this.fecha && cp.horario == this.horario){
+            if(cp.mensaje.equals(this.mensaje) && cp.fecha.equals(this.fecha) && cp.horario.equals(this.horario)){
                 return true;
             }
         }
