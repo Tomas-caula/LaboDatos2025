@@ -13,16 +13,16 @@ basePath = basePathTomas
 # basePath = basePathTomas  
 # basePath = basePathIoel
 
-establecimientos = pd.read_csv(basePath + "/estableciminetos.csv", encoding="latin1", low_memory=False)
+
 bibliotecas = pd.read_csv(basePath + "/bibliotecas.csv")
 
 def tabla_relaciones_EE():
-    
+    establecimientos = pd.read_csv(basePath + "/estableciminetos.csv", encoding="latin1", low_memory=False)
     establecimientosEducativosComunes = "EEcomunes.csv"
 
     filtrados = []
     filtrados.append(establecimientos.iloc[4, [4, 8, 9, 16, 17, 18, 19]])
-    for i in range(5, len(estableciminetos)):
+    for i in range(5, len(establecimientos)):
         if establecimientos.iloc[i, 13] == "1":
             filtrados.append(establecimientos.iloc[i, [4, 8, 9, 16, 17, 18, 19]])
         
