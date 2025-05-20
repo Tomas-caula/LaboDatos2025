@@ -9,13 +9,12 @@ basePathTomas = "C:/Users/tomas/OneDrive/Documents/GitHub/LaboDatos2025/Tp/"
 basePathIoel = "D:/Users/Usuario/Documents/GitHub/LaboDatos2025/Tp"
 basePathFran = "C:/Users/franc/Documents/GitHub/LaboDatos2025/Tp"
 
-basePath = basePathFran
+basePath = basePathTomas
 # basePath = basePathTomas  
 # basePath = basePathIoel
 
 establecimientos = pd.read_csv(basePath + "/estableciminetos.csv", encoding="latin1", low_memory=False)
 bibliotecas = pd.read_csv(basePath + "/bibliotecas.csv")
-poblacion = pd.read_csv(basePath + "/poblacion.csv")
 
 def tabla_relaciones_EE():
     
@@ -40,24 +39,54 @@ def tabla_relaciones_BP():
     filtrados_df.to_csv(bibliotecasPopulares, index=False, encoding="utf-8")
 
 def tabla_departamentos():
+    poblacion = pd.read_csv(basePath + "/poblacion.csv")
     departamentos = "departamentos.csv"
-    tabla_0 = ["id_departamento", "nombre", "poblacion_0_6", "poblacion_6_12", "poblacion_12_18"]
-    filtrados = []
+    col_dep = ["id_departamento", "nombre", "poblacion jardin", "poblacion primario", "poblacion secundario"]
+    df_departamentos = pd.DataFrame(columns=col_dep)
     poblacion = poblacion.iloc[12 :, 1: 3].dropna(thresh=1)
     columnas = ["edad", "casos"]
     poblacion = poblacion.rename(columns=lambda c: columnas[int(c.split(" ")[1]) - 1])
     poblacion = poblacion[poblacion["edad"] != "Edad"]
+    poblacion = poblacion[poblacion["edad"] != "RESUMEN"]
     poblacion = poblacion[poblacion["edad"] != "Total"].reset_index(drop=True)
+    index = 1
+    area = poblacion["edad"][0].split(" ")[2]
+    nombre = poblacion["casos"][0]
+    cuenta_jardin = 0 
+    cuenta_primario = 0 
+    cuenta_secundario = 0
+    print(poblacion)
+    while index < len(poblacion):
+        if "#" in poblacion["edad"][index]:
+            df_departamentos.loc[len(df_departamentos)] = [area, nombre, cuenta_jardin, cuenta_primario, cuenta_secundario]
+            area = poblacion["edad"][index].split(" ")[2]
+            nombre = poblacion["casos"][index]
+            cuenta_jardin = 0 
+            cuenta_primario = 0 
+            cuenta_secundario = 0
+        elif 3 <= int(poblacion["edad"][index]) <= 5  :
+            valor = str(poblacion["casos"][index]).replace(" ", "").strip()
+            print(valor)
+            cuenta_jardin += int(valor)
+        elif 5 <=int(poblacion["edad"][index]) <= 12: 
+            valor = str(poblacion["casos"][index]).replace(" ", "").strip()
+            cuenta_primario += int(valor)
+        elif 12 <= int(poblacion["edad"][index]) <= 18: 
+            valor = str(poblacion["casos"][index]).replace(" ", "").strip()
+            cuenta_secundario += int(valor)
+        index += 1
+
+    print(df_departamentos)    
     
-    while poblacion.iloc[i].astype(str).str.startswith("AREA") == False:
-        tabla_por_departamento = [area, nombre, poblacion_0_6, poblacion_6_12, ppoblacion_12_18]
-        i += 1
-        tabla_por_departamento = []
-        if bibliotecas.iloc[i, 10] == "1":
-            filtrados.append(bibliotecas.iloc[i, [2, 9, 10, 15, 22]])
-    area = poblacion.iloc[i, 2].split("       ")[2]
-    filtrados_df = pd.DataFrame(filtrados)
-    filtrados_df.to_csv(departamentos, index=False, encoding="utf-8")
+    # while poblacion.iloc[i].astype(str).str.startswith("AREA") == False:
+    #     tabla_por_departamento = [area, nombre, poblacion_0_6, poblacion_6_12, ppoblacion_12_18]
+    #     i += 1
+    #     tabla_por_departamento = []
+    #     if bibliotecas.iloc[i, 10] == "1":
+    #         filtrados.append(bibliotecas.iloc[i, [2, 9, 10, 15, 22]])
+    # area = poblacion.iloc[i, 2].split("       ")[2]
+    # filtrados_df = pd.DataFrame(filtrados)
+    # filtrados_df.to_csv(departamentos, index=False, encoding="utf-8")
     
 # def analizarNumeros (): 
 #     validos = 0
@@ -91,7 +120,7 @@ def analizarMail ():
 #hacer una tabla provincia departamente cantidad de jardines, poblacion de edad de jardin, primaria 
 
 #print(consultaSQL.head(8))
-print(poblacion)
+tabla_departamentos()
 
 #print(consultaSQL)
 
