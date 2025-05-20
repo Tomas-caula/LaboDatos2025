@@ -5,10 +5,8 @@ from phonenumbers import geocoder, carrier
 from inline_sql import sql, sql_val
 import duckdb
 
-
-
 basePath = "./"
-# basePath = basePathTomas  
+# basePath = basePathTomas
 # basePath = basePathIoel
 invalidos = []
 establecimientos = pd.read_csv(basePath + "/estableciminetos.csv", encoding="latin1", low_memory=False)
@@ -16,28 +14,27 @@ bibliotecas = pd.read_csv(basePath + "/bibliotecas.csv")
 
 def tabla_relaciones_EE():
     establecimientosEducativosComunes = "EEcomunes.csv"
-
     filtrados = []
     filtrados.append(establecimientos.iloc[4, [4, 8, 9, 17, 18, 19]])
     for i in range(5, len(establecimientos)):
         if establecimientos.iloc[i, 13] == "1":
             filtrados.append(establecimientos.iloc[i, [4, 8, 9, 17, 18, 19]])
     filtrados_df = pd.DataFrame(filtrados)
-    columnas = {filtrados_df.columns[0]: "codigo_departamento", filtrados_df.columns[1]:"nombre", filtrados_df.columns[2]:"domicilio", filtrados_df.columns[3]:"jardin_infantes", filtrados_df.columns[4]: "primario", filtrados_df.columns[5]:"secundario"}
+    columnas = {filtrados_df.columns[0]: "id_departamento", filtrados_df.columns[1]:"nombre", filtrados_df.columns[2]:"domicilio", filtrados_df.columns[3]:"jardin_infantes", filtrados_df.columns[4]: "primario", filtrados_df.columns[5]:"secundario"}
     filtrados_df = filtrados_df.rename(columns=columnas)
     filtrados_df = filtrados_df[filtrados_df["secundario"] != "Secundario"]
-    filtrados_df.to_csv(establecimientosEducativosComunes, encoding="utf-8")
-
+    filtrados_df.to_csv(establecimientosEducativosComunes, encoding="utf-8", index=True, index_label="id_establecimiento")
 
 def tabla_relaciones_BP():
     bibliotecasPopulares = "BP.csv"
     filtrados = []
     for i in range(1, len(bibliotecas)):
-      filtrados.append(bibliotecas.iloc[i, [2, 9, 10, 15, 22]])
+        filtrados.append(bibliotecas.iloc[i, [2, 15, 22]])
     filtrados_df = pd.DataFrame(filtrados)
-    filtrados_df.to_csv(bibliotecasPopulares, encoding="utf-8")
+    columnas = {filtrados_df.columns[0]: "nombre", filtrados_df.columns[1]: "mail", filtrados_df.columns[2]: "fecha_fundacion"}
+    filtrados_df = filtrados_df.rename(columns=columnas)
+    filtrados_df.to_csv(bibliotecasPopulares, encoding="utf-8", index=True, index_label="id_biblioteca")
     return filtrados_df
-
 
 def obtener_provincia(codigo):
     localEstablecimiento =  establecimientos.iloc[5 :, 0: 5].dropna(thresh=1)
@@ -54,9 +51,6 @@ def obtener_provincia(codigo):
         return "Ciudad de Buenos Aires"
     else :
         return "desconocida"
-
-    
-
 
 def tabla_departamentos():
     poblacion = pd.read_csv(basePath + "/poblacion.csv")
@@ -121,21 +115,14 @@ def tabla_departamentos():
 #             validos += 1
 #         cond = False
 #         index += 1
-
-
 #     print(validos)
-
 
 def analizarMail ():
     df = bibliotecas["mail"]
     print("null mail", len(bibliotecas) - df.count())
     print("mails", df.count())
 
-
-
-
-
-#hacer una tabla provincia departamente cantidad de jardines, poblacion de edad de jardin, primaria 
+#hacer una tabla provincia departameento cantidad de jardines, poblacion de edad de jardin, primaria 
 
 #print(consultaSQL.head(8))
 #print(consultaSQL)
@@ -143,10 +130,70 @@ def analizarMail ():
 #dataframeResultado = sql^ consultaSQL
 
 #print(dataframeResultado)
-tabla_relaciones_EE()
 
+#tabla_relaciones_EE()
+#tabla_relaciones_BP()
+#tabla_departamentos()
 
+# Leer el archivo BP.csv
+bp = pd.read_csv("BP.csv")
 
+# Registrar el DataFrame como tabla en DuckDB
+# Leer los archivos
+ee = pd.read_csv("EEcomunes.csv")
+deptos = pd.read_csv("departamentos.csv")
 
+# Conectar y registrar las tablas
+con = duckdb.connect()
+con.register('bp', bp)
+con.register('ee', ee)
+con.register('deptos', deptos)
 
+consultai = duckdb.query("""
+SELECT
+    deptos.provincia AS Provincia,
+    deptos.nombre AS Departamento,
+    COUNT(CASE WHEN ee.jardin_infantes = '1' THEN 1 END) AS Jardines,
+    deptos."poblacion jardin" AS "Población Jardin",
+    COUNT(CASE WHEN ee.primario = '1' THEN 1 END) AS Primarias,
+    deptos."poblacion primario" AS "Población Primaria",
+    COUNT(CASE WHEN ee.secundario = '1' THEN 1 END) AS Secundarios,
+    deptos."poblacion secundario" AS "Población Secundaria"
+FROM deptos
+LEFT JOIN ee ON deptos.id_departamento = ee.id_departamento
+GROUP BY deptos.provincia, deptos.nombre, deptos."poblacion jardin", deptos."poblacion primario", deptos."poblacion secundario"
+ORDER BY deptos.provincia ASC, Primarias DESC
+""").df()
 
+consulta1 = "consulta1.csv"
+consultai.to_csv(consulta1, encoding="utf-8", index=False)
+
+consultaii = duckdb.query("""
+SELECT
+    d.provincia AS Provincia,
+    d.nombre AS Departamento,
+    COUNT(CASE WHEN bp.fecha_fundacion >= '1950-01-01' THEN 1 END) AS "Cantidad de BP fundadas desde 1950"
+FROM deptos d
+LEFT JOIN bp ON d.id_departamento = CAST(bp.nombre AS VARCHAR)
+GROUP BY d.provincia, d.nombre
+ORDER BY d.provincia ASC, "Cantidad de BP fundadas desde 1950" DESC
+""").df()
+
+consulta2 = "consulta2.csv"
+consultaii.to_csv("consulta2.csv", encoding="utf-8", index=False)
+
+#consultaiii = duckdb.query("""
+#SELECT
+#    BLABLA
+#""").df()
+
+#consulta3 = "consulta3.csv"
+#consultaiii.to_csv(consulta3, encoding="utf-8", index=False)
+
+#consultaiv = duckdb.query("""
+#SELECT
+#    BLABLA
+#""").df()
+
+#consulta4 = "consulta4.csv"
+#consultaiv.to_csv(consulta4, encoding="utf-8", index=False)
