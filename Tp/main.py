@@ -6,8 +6,6 @@ from inline_sql import sql, sql_val
 import duckdb
 
 basePath = "./"
-# basePath = basePathTomas
-# basePath = basePathIoel
 invalidos = []
 establecimientos = pd.read_csv(basePath + "/estableciminetos.csv", encoding="latin1", low_memory=False)
 bibliotecas = pd.read_csv(basePath + "/bibliotecas.csv")
@@ -29,7 +27,12 @@ def tabla_relaciones_BP():
     bibliotecasPopulares = "BP.csv"
     filtrados = []
     for i in range(1, len(bibliotecas)):
-        filtrados.append(bibliotecas.iloc[i, [2, 15, 22]])
+        fila = bibliotecas.iloc[i]
+        if isinstance(fila.iloc[15], str) and "@" in fila.iloc[15]:
+            filtrados.append((fila.iloc[2], fila.iloc[15].split('@')[1].split('.')[0], fila.iloc[22]))
+        else:
+            filtrados.append((fila.iloc[2], fila.iloc[15], fila.iloc[22]))
+
     filtrados_df = pd.DataFrame(filtrados)
     columnas = {filtrados_df.columns[0]: "nombre", filtrados_df.columns[1]: "mail", filtrados_df.columns[2]: "fecha_fundacion"}
     filtrados_df = filtrados_df.rename(columns=columnas)
@@ -160,7 +163,7 @@ SELECT
     COUNT(CASE WHEN ee.secundario = '1' THEN 1 END) AS Secundarios,
     deptos."poblacion secundario" AS "Población Secundaria"
 FROM deptos
-LEFT JOIN ee ON deptos.id_departamento = ee.id_departamento
+LEFT OUTER JOIN ee ON deptos.id_departamento = ee.id_departamento
 GROUP BY deptos.provincia, deptos.nombre, deptos."poblacion jardin", deptos."poblacion primario", deptos."poblacion secundario"
 ORDER BY deptos.provincia ASC, Primarias DESC
 """).df()
@@ -170,30 +173,104 @@ consultai.to_csv(consulta1, encoding="utf-8", index=False)
 
 consultaii = duckdb.query("""
 SELECT
-    d.provincia AS Provincia,
-    d.nombre AS Departamento,
+    deptos.provincia AS Provincia,
+    deptos.nombre AS Departamento,
     COUNT(CASE WHEN bp.fecha_fundacion >= '1950-01-01' THEN 1 END) AS "Cantidad de BP fundadas desde 1950"
-FROM deptos d
-LEFT JOIN bp ON d.id_departamento = CAST(bp.nombre AS VARCHAR)
-GROUP BY d.provincia, d.nombre
-ORDER BY d.provincia ASC, "Cantidad de BP fundadas desde 1950" DESC
+FROM deptos
+LEFT OUTER JOIN bp ON deptos.id_departamento = bp.nombre
+GROUP BY deptos.provincia, deptos.nombre
+ORDER BY deptos.provincia ASC, "Cantidad de BP fundadas desde 1950" DESC
 """).df()
 
 consulta2 = "consulta2.csv"
 consultaii.to_csv("consulta2.csv", encoding="utf-8", index=False)
 
-#consultaiii = duckdb.query("""
-#SELECT
-#    BLABLA
-#""").df()
+consultaiii = duckdb.query("""
+SELECT
+    deptos.provincia AS Provincia,
+    deptos.nombre AS Departamento,
+    COUNT(DISTINCT ee.id_establecimiento) AS Cant_EE,
+    COUNT(DISTINCT bp.id_biblioteca) AS Cant_BP,
+    (deptos."poblacion jardin" + deptos."poblacion primario" + deptos."poblacion secundario") AS Población
+FROM deptos
+LEFT OUTER JOIN ee ON deptos.id_departamento = ee.id_departamento
+LEFT OUTER JOIN bp ON deptos.id_departamento = bp.nombre
+GROUP BY deptos.provincia, deptos.nombre, deptos."poblacion jardin", deptos."poblacion primario", deptos."poblacion secundario"
+ORDER BY Cant_EE DESC, Cant_BP DESC, Provincia ASC, Departamento ASC
+""").df()
 
-#consulta3 = "consulta3.csv"
-#consultaiii.to_csv(consulta3, encoding="utf-8", index=False)
+consulta3 = "consulta3.csv"
+consultaiii.to_csv(consulta3, encoding="utf-8", index=False)
 
-#consultaiv = duckdb.query("""
-#SELECT
-#    BLABLA
-#""").df()
+consultaiv = duckdb.query("""
+SELECT
+    t1.provincia AS Provincia,
+    t1.nombre AS Departamento,
+    t1.mail AS "Dominio más frecuente en BP"
+FROM (
+    SELECT
+        deptos.provincia,
+        deptos.nombre,
+        bp.mail,
+        COUNT() AS cantidad
+    FROM deptos
+    LEFT OUTER JOIN bp ON deptos.id_departamento = bp.nombre
+    WHERE bp.mail IS NOT NULL AND bp.mail <> ''
+    GROUP BY deptos.provincia, deptos.nombre, bp.mail
+) t1
+INNER JOIN (
+    SELECT
+        provincia,
+        nombre,
+        MAX(cantidad) AS max_cantidad
+    FROM (
+        SELECT
+            deptos.provincia AS provincia,
+            deptos.nombre AS nombre,
+            bp.mail,
+            COUNT() AS cantidad
+        FROM deptos
+        LEFT OUTER JOIN bp ON deptos.id_departamento = bp.nombre
+        WHERE bp.mail IS NOT NULL AND bp.mail <> ''
+        GROUP BY deptos.provincia, deptos.nombre, bp.mail
+    ) t2
+    GROUP BY provincia, nombre
+) t3
+ON t1.provincia = t3.provincia AND t1.nombre = t3.nombre AND t1.cantidad = t3.max_cantidad
+ORDER BY Provincia ASC, Departamento ASC
+""").df()
 
-#consulta4 = "consulta4.csv"
-#consultaiv.to_csv(consulta4, encoding="utf-8", index=False)
+consulta4 = "consulta4.csv"
+consultaiv.to_csv(consulta4, encoding="utf-8", index=False)
+
+bp_segun_provincia = {}
+deptos = pd.read_csv("departamentos.csv", dtype={"id_departamento": str})
+
+for i in range(len(bp)):
+    id_dep = str(bp.nombre[i])
+    filtro = deptos[deptos["id_departamento"] == id_dep]
+    if not filtro.empty:
+        provincia = filtro["provincia"].values[0]
+        if provincia in bp_segun_provincia:
+            bp_segun_provincia[provincia] += 1
+        else:
+            bp_segun_provincia[provincia] = 1
+    otroFiltro = deptos[deptos["id_departamento"] == "0" + id_dep]
+    if not otroFiltro.empty:
+        provincia = otroFiltro["provincia"].values[0]
+        if provincia in bp_segun_provincia:
+            bp_segun_provincia[provincia] += 1
+        else:
+            bp_segun_provincia[provincia] = 1
+# NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA
+
+bp_segun_provincia = sorted(bp_segun_provincia.items(), key=lambda x: x[1], reverse=True)
+print(bp_segun_provincia)
+
+fig, ax = plt.subplots()
+ax.bar(data=bp_segun_provincia, x=[x[0] for x in bp_segun_provincia], height=[x[1] for x in bp_segun_provincia])
+ax.set_xlabel("Provincias")
+ax.set_ylabel("Cantidad de Bibliotecas Populares")
+ax.set_title("Cantidad de Bibliotecas Populares por Provincia")
+plt.tight_layout()
+plt.show()
