@@ -1,19 +1,4 @@
 id_departamento,nombre,poblacion jardin,poblacion primario,poblacion secundario,provincia
-02007,Comuna 1,6851,17398,14659,Ciudad de Buenos Aires
-02014,Comuna 2,3521,8758,9155,Ciudad de Buenos Aires
-02021,Comuna 3,5197,13857,12322,Ciudad de Buenos Aires
-02028,Comuna 4,8119,22520,18869,Ciudad de Buenos Aires
-02035,Comuna 5,4779,13029,11616,Ciudad de Buenos Aires
-02042,Comuna 6,5158,13889,12281,Ciudad de Buenos Aires
-02049,Comuna 7,6129,17292,15351,Ciudad de Buenos Aires
-02056,Comuna 8,8442,23918,20127,Ciudad de Buenos Aires
-02063,Comuna 9,5015,14531,13545,Ciudad de Buenos Aires
-02070,Comuna 10,4745,13286,12254,Ciudad de Buenos Aires
-02077,Comuna 11,5321,14922,13918,Ciudad de Buenos Aires
-02084,Comuna 12,6676,17210,14615,Ciudad de Buenos Aires
-02091,Comuna 13,6553,17774,16311,Ciudad de Buenos Aires
-02098,Comuna 14,5701,14539,13329,Ciudad de Buenos Aires
-02105,Comuna 15,5328,14068,12311,Ciudad de Buenos Aires
 06007,Adolfo Alsina,732,1697,1437,Buenos Aires
 06014,Adolfo Gonzales Chaves,523,1401,1170,Buenos Aires
 06021,Alberti,495,1378,1198,Buenos Aires
@@ -510,7 +495,7 @@ id_departamento,nombre,poblacion jardin,poblacion primario,poblacion secundario,
 90014,Cruz Alta,11658,29374,23883,Tucumán
 90021,Chicligasta,4203,10719,8977,Tucumán
 90028,Famaillá,2322,5489,4607,Tucumán
-90035,Graneros,800,1880,1613,Tucumán
+02000,Ciudad de Buenos Aires,87535,236991,210663,Ciudad de Buenos Aires
 90042,Juan Bautista Alberdi,1586,4124,3462,Tucumán
 90049,La Cocha,992,2557,2282,Tucumán
 90056,Leales,3089,7892,6716,Tucumán

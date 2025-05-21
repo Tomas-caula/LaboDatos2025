@@ -1,4 +1,5 @@
 Provincia,Departamento,Cant_EE,Cant_BP,Población
+Ciudad de Buenos Aires,Ciudad de Buenos Aires,1719,43,535189
 Córdoba,Capital,1144,20,340097
 Buenos Aires,La Matanza,996,16,494246
 Santa Fe,Rosario,830,39,301974
@@ -152,7 +153,6 @@ Catamarca,La Paz,99,2,7251
 Jujuy,San Pedro,98,6,23496
 Santa Fe,9 de Julio,97,3,8385
 Corrientes,Esquina,97,1,11182
-Ciudad de Buenos Aires,Comuna 15,97,0,31707
 Santiago del Estero,Moreno,97,0,13254
 Río Negro,Adolfo Alsina,96,5,15768
 Santiago del Estero,Figueroa,96,0,6457
@@ -290,7 +290,6 @@ Neuquén,Zapala,52,2,12044
 Buenos Aires,Rojas,52,1,6113
 Chaco,12 de Octubre,52,1,6300
 Mendoza,Malargüe,52,1,9400
-Tucumán,Graneros,52,1,4293
 Formosa,Matacos,52,0,5582
 La Rioja,Rosario Vera Peñaloza,52,0,4261
 Santa Fe,Belgrano,51,6,11164
@@ -510,18 +509,4 @@ La Pampa,Limay Mahuida,4,0,84
 La Pampa,Lihuel Calel,3,1,118
 La Rioja,Sanagasta,3,1,755
 Chubut,Mártires,3,0,171
-Ciudad de Buenos Aires,Comuna 1,0,0,38908
-Ciudad de Buenos Aires,Comuna 10,0,0,30285
-Ciudad de Buenos Aires,Comuna 11,0,0,34161
-Ciudad de Buenos Aires,Comuna 12,0,0,38501
-Ciudad de Buenos Aires,Comuna 13,0,0,40638
-Ciudad de Buenos Aires,Comuna 14,0,0,33569
-Ciudad de Buenos Aires,Comuna 2,0,0,21434
-Ciudad de Buenos Aires,Comuna 3,0,0,31376
-Ciudad de Buenos Aires,Comuna 4,0,0,49508
-Ciudad de Buenos Aires,Comuna 5,0,0,29424
-Ciudad de Buenos Aires,Comuna 6,0,0,31328
-Ciudad de Buenos Aires,Comuna 7,0,0,38772
-Ciudad de Buenos Aires,Comuna 8,0,0,52487
-Ciudad de Buenos Aires,Comuna 9,0,0,33091
 Tierra del Fuego,Río Grande,0,0,26366
