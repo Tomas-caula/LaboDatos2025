@@ -243,34 +243,50 @@ ORDER BY Provincia ASC, Departamento ASC
 consulta4 = "consulta4.csv"
 consultaiv.to_csv(consulta4, encoding="utf-8", index=False)
 
-bp_segun_provincia = {}
-deptos = pd.read_csv("departamentos.csv", dtype={"id_departamento": str})
+# bp_segun_provincia = {}
+# deptos = pd.read_csv("departamentos.csv", dtype={"id_departamento": str})
 
-for i in range(len(bp)):
-    id_dep = str(bp.nombre[i])
-    filtro = deptos[deptos["id_departamento"] == id_dep]
-    if not filtro.empty:
-        provincia = filtro["provincia"].values[0]
-        if provincia in bp_segun_provincia:
-            bp_segun_provincia[provincia] += 1
-        else:
-            bp_segun_provincia[provincia] = 1
-    otroFiltro = deptos[deptos["id_departamento"] == "0" + id_dep]
-    if not otroFiltro.empty:
-        provincia = otroFiltro["provincia"].values[0]
-        if provincia in bp_segun_provincia:
-            bp_segun_provincia[provincia] += 1
-        else:
-            bp_segun_provincia[provincia] = 1
-# NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA
+# for i in range(len(bp)):
+#     id_dep = str(bp.nombre[i])
+#     filtro = deptos[deptos["id_departamento"] == id_dep]
+#     if not filtro.empty:
+#         provincia = filtro["provincia"].values[0]
+#         if provincia in bp_segun_provincia:
+#             bp_segun_provincia[provincia] += 1
+#         else:
+#             bp_segun_provincia[provincia] = 1
+#     otroFiltro = deptos[deptos["id_departamento"] == "0" + id_dep]
+#     if not otroFiltro.empty:
+#         provincia = otroFiltro["provincia"].values[0]
+#         if provincia in bp_segun_provincia:
+#             bp_segun_provincia[provincia] += 1
+#         else:
+#             bp_segun_provincia[provincia] = 1
+# # NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA
 
-bp_segun_provincia = sorted(bp_segun_provincia.items(), key=lambda x: x[1], reverse=True)
-print(bp_segun_provincia)
+# bp_segun_provincia = sorted(bp_segun_provincia.items(), key=lambda x: x[1], reverse=True)
+# print(bp_segun_provincia)
 
-fig, ax = plt.subplots()
-ax.bar(data=bp_segun_provincia, x=[x[0] for x in bp_segun_provincia], height=[x[1] for x in bp_segun_provincia])
-ax.set_xlabel("Provincias")
-ax.set_ylabel("Cantidad de Bibliotecas Populares")
-ax.set_title("Cantidad de Bibliotecas Populares por Provincia")
-plt.tight_layout()
-plt.show()
+# fig, ax = plt.subplots()
+# ax.bar(data=bp_segun_provincia, x=[x[0] for x in bp_segun_provincia], height=[x[1] for x in bp_segun_provincia])
+# ax.set_xlabel("Provincias")
+# ax.set_ylabel("Cantidad de Bibliotecas Populares")
+# ax.set_title("Cantidad de Bibliotecas Populares por Provincia")
+# plt.tight_layout()
+# plt.show()
+
+#Ejercicio 2
+# Vamos a hacer tres graficos de puntos por cada Nivel educativo, cada burbuja va a representar un departamento, el eje x va a ser la poblacion y el eje y la cantidad de establecimientos educativos.
+
+def graficar_puntos_nivel(df):
+    plt.scatter(df["Población Jardin"], df["Jardines"], color='green', alpha=0.7, label='Jardín')
+    plt.scatter(df["Población Primaria"], df["Primarias"], color='blue', alpha=0.7, label='Primaria')
+    plt.scatter(df["Población Secundaria"], df["Secundarios"], color='red', alpha=0.7, label='Secundaria')
+    plt.xlabel(f"Población")
+    plt.ylabel(f"Cantidad de EE")
+    plt.title(f"Cantidad de EE vs Población")
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))  # Leyenda a la derecha
+    plt.tight_layout()
+    plt.show()
+
+graficar_puntos_nivel(pd.read_csv("consulta1.csv"))

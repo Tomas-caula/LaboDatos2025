@@ -1,7 +1,7 @@
 Provincia,Departamento,Dominio más frecuente en BP
 Buenos Aires,Adolfo Alsina,hotmail
-Buenos Aires,Adolfo Gonzales Chaves,yahoo
 Buenos Aires,Adolfo Gonzales Chaves,hotmail
+Buenos Aires,Adolfo Gonzales Chaves,yahoo
 Buenos Aires,Alberti,live
 Buenos Aires,Alberti,hotmail
 Buenos Aires,Almirante Brown,yahoo
@@ -12,8 +12,8 @@ Buenos Aires,Azul,bibliotecaronco
 Buenos Aires,Bahía Blanca,yahoo
 Buenos Aires,Balcarce,yahoo
 Buenos Aires,Benito Juárez,gmail
-Buenos Aires,Berazategui,yahoo
 Buenos Aires,Berazategui,hotmail
+Buenos Aires,Berazategui,yahoo
 Buenos Aires,Berisso,hotmail
 Buenos Aires,Berisso,gmail
 Buenos Aires,Berisso,yahoo
@@ -28,26 +28,26 @@ Buenos Aires,Carlos Tejedor,yahoo
 Buenos Aires,Carlos Tejedor,servicoopsa
 Buenos Aires,Carmen de Areco,yahoo
 Buenos Aires,Castelli,yahoo
-Buenos Aires,Cañuelas,yahoo
 Buenos Aires,Cañuelas,hotmail
+Buenos Aires,Cañuelas,yahoo
 Buenos Aires,Chivilcoy,hotmail
 Buenos Aires,Coronel Dorrego,gmail
 Buenos Aires,Coronel Dorrego,altisa
 Buenos Aires,Coronel Suárez,gmail
 Buenos Aires,Coronel de Marina Leonardo Rosales,gmail
 Buenos Aires,Ensenada,yahoo
-Buenos Aires,Escobar,gmail
 Buenos Aires,Escobar,yahoo
+Buenos Aires,Escobar,gmail
 Buenos Aires,Esteban Echeverría,gmail
-Buenos Aires,Ezeiza,gmail
 Buenos Aires,Ezeiza,yahoo
+Buenos Aires,Ezeiza,gmail
 Buenos Aires,Florencio Varela,yahoo
 Buenos Aires,General Alvarado,yahoo
 Buenos Aires,General Alvear,yahoo
 Buenos Aires,General La Madrid,yahoo
 Buenos Aires,General Lavalle,hotmail
-Buenos Aires,General Pinto,yahoo
 Buenos Aires,General Pinto,hotmail
+Buenos Aires,General Pinto,yahoo
 Buenos Aires,General San Martín,hotmail
 Buenos Aires,General Viamonte,yahoo
 Buenos Aires,General Villegas,servicoopsa
@@ -58,22 +58,22 @@ Buenos Aires,Ituzaingó,yahoo
 Buenos Aires,Junín,gmail
 Buenos Aires,La Costa,yahoo
 Buenos Aires,La Matanza,yahoo
-Buenos Aires,La Plata,hotmail
 Buenos Aires,La Plata,yahoo
+Buenos Aires,La Plata,hotmail
 Buenos Aires,Lanús,hotmail
 Buenos Aires,Laprida,yahoo
+Buenos Aires,Leandro N. Alem,hotmail
 Buenos Aires,Leandro N. Alem,yahoo
 Buenos Aires,Leandro N. Alem,live
-Buenos Aires,Leandro N. Alem,hotmail
 Buenos Aires,Lincoln,hotmail
 Buenos Aires,Lobería,gmail
 Buenos Aires,Lobos,yahoo
 Buenos Aires,Lomas de Zamora,yahoo
 Buenos Aires,Luján,gmail
 Buenos Aires,Magdalena,gmail
-Buenos Aires,Malvinas Argentinas,yahoo
-Buenos Aires,Malvinas Argentinas,gmail
 Buenos Aires,Malvinas Argentinas,hotmail
+Buenos Aires,Malvinas Argentinas,gmail
+Buenos Aires,Malvinas Argentinas,yahoo
 Buenos Aires,Mar Chiquita,yahoo
 Buenos Aires,Marcos Paz,gmail
 Buenos Aires,Mercedes,hotmail
@@ -81,18 +81,18 @@ Buenos Aires,Merlo,bibliotecaguiraldes
 Buenos Aires,Monte,hotmail
 Buenos Aires,Moreno,hotmail
 Buenos Aires,Morón,hotmail
-Buenos Aires,Navarro,yahoo
 Buenos Aires,Navarro,copesnet
+Buenos Aires,Navarro,yahoo
 Buenos Aires,Necochea,arnet
 Buenos Aires,Necochea,hotmail
-Buenos Aires,Olavarría,yahoo
 Buenos Aires,Olavarría,hotmail
+Buenos Aires,Olavarría,yahoo
 Buenos Aires,Patagones,yahoo
 Buenos Aires,Pehuajó,live
-Buenos Aires,Pehuajó,yahoo
 Buenos Aires,Pehuajó,gmail
-Buenos Aires,Pergamino,yahoo
+Buenos Aires,Pehuajó,yahoo
 Buenos Aires,Pergamino,hotmail
+Buenos Aires,Pergamino,yahoo
 Buenos Aires,Pilar,yahoo
 Buenos Aires,Pinamar,telpin
 Buenos Aires,Puan,yahoo
@@ -102,11 +102,11 @@ Buenos Aires,Rauch,gmail
 Buenos Aires,Rauch,yahoo
 Buenos Aires,Rivadavia,gmail
 Buenos Aires,Roque Pérez,yahoo
-Buenos Aires,Saavedra,gmail
 Buenos Aires,Saavedra,yahoo
+Buenos Aires,Saavedra,gmail
 Buenos Aires,Salto,hotmail
-Buenos Aires,San Antonio de Areco,hotmail
 Buenos Aires,San Antonio de Areco,yahoo
+Buenos Aires,San Antonio de Areco,hotmail
 Buenos Aires,San Fernando,gmail
 Buenos Aires,San Isidro,yahoo
 Buenos Aires,San Miguel,hotmail
@@ -122,13 +122,13 @@ Buenos Aires,Trenque Lauquen,yahoo
 Buenos Aires,Tres Arroyos,hotmail
 Buenos Aires,Tres de Febrero,hotmail
 Buenos Aires,Vicente López,yahoo
-Buenos Aires,Villarino,gmail
 Buenos Aires,Villarino,yahoo
+Buenos Aires,Villarino,gmail
 Buenos Aires,Zárate,hotmail
 Catamarca,Capayán,yahoo
 Catamarca,Fray Mamerto Esquiú,yahoo
-Catamarca,Santa Rosa,yahoo
 Catamarca,Santa Rosa,hotmail
+Catamarca,Santa Rosa,yahoo
 Catamarca,Valle Viejo,hotmail
 Chaco,2 de Abril,yahoo
 Chaco,25 de Mayo,yahoo
@@ -141,21 +141,21 @@ Chaco,General Donovan,hotmail
 Chaco,General Donovan,yahoo
 Chaco,General Güemes,yahoo
 Chaco,Libertador General San Martín,yahoo
-Chaco,Mayor Luis J. Fontana,gmail
 Chaco,Mayor Luis J. Fontana,vai
+Chaco,Mayor Luis J. Fontana,gmail
 Chaco,O'Higgins,yahoo
 Chaco,Presidencia de la Plaza,hotmail
-Chaco,Quitilipi,hotmail
 Chaco,Quitilipi,gmail
+Chaco,Quitilipi,hotmail
 Chaco,San Fernando,hotmail
 Chaco,San Lorenzo,yahoo
 Chaco,Sargento Cabral,yahoo
 Chubut,Biedma,hotmail
-Chubut,Cushamen,gmail
 Chubut,Cushamen,hotmail
-Chubut,Escalante,hotmail
-Chubut,Escalante,labibliotecadeastra
+Chubut,Cushamen,gmail
 Chubut,Escalante,yahoo
+Chubut,Escalante,labibliotecadeastra
+Chubut,Escalante,hotmail
 Chubut,Futaleufú,yahoo
 Chubut,Gaiman,gmail
 Chubut,Rawson,hotmail
@@ -179,10 +179,10 @@ Corrientes,Santo Tomé,cableat
 Córdoba,Calamuchita,gmail
 Córdoba,Capital,yahoo
 Córdoba,Colón,hotmail
+Córdoba,General Roca,delcampillocoop
+Córdoba,General Roca,jovitacoop
 Córdoba,General Roca,gmail
 Córdoba,General Roca,hotmail
-Córdoba,General Roca,jovitacoop
-Córdoba,General Roca,delcampillocoop
 Córdoba,General San Martín,hotmail
 Córdoba,Ischilín,intinet
 Córdoba,Ischilín,gmail
@@ -193,22 +193,22 @@ Córdoba,Punilla,gmail
 Córdoba,Río Cuarto,hotmail
 Córdoba,Río Primero,hotmail
 Córdoba,Río Segundo,yahoo
-Córdoba,San Alberto,gmail
 Córdoba,San Alberto,ordendelcolmenar
+Córdoba,San Alberto,gmail
 Córdoba,San Javier,yahoo
 Córdoba,San Justo,gmail
 Córdoba,Santa María,gmail
 Córdoba,Tercero Arriba,hotmail
 Córdoba,Unión,yahoo
 Entre Ríos,Colón,hotmail
-Entre Ríos,Concordia,concordia
 Entre Ríos,Concordia,hotmail
+Entre Ríos,Concordia,concordia
 Entre Ríos,Diamante,yahoo
 Entre Ríos,Federación,multichajari
 Entre Ríos,Federación,gmail
 Entre Ríos,Federación,outlook
-Entre Ríos,Federal,gmail
 Entre Ríos,Federal,hotmail
+Entre Ríos,Federal,gmail
 Entre Ríos,Gualeguay,arnet
 Entre Ríos,Gualeguay,yahoo
 Entre Ríos,Gualeguaychú,hotmail
@@ -216,8 +216,8 @@ Entre Ríos,Islas del Ibicuy,hotmail
 Entre Ríos,La Paz,hotmail
 Entre Ríos,Nogoyá,hotmail
 Entre Ríos,Paraná,gmail
-Entre Ríos,San Salvador,gmail
 Entre Ríos,San Salvador,yahoo
+Entre Ríos,San Salvador,gmail
 Entre Ríos,Tala,gmail
 Entre Ríos,Uruguay,yahoo
 Entre Ríos,Villaguay,gmail
@@ -227,8 +227,8 @@ Formosa,Patiño,hotmail
 Formosa,Pilcomayo,hotmail
 Formosa,Pirané,hotmail
 Jujuy,Cochinoca,yahoo
-Jujuy,Dr. Manuel Belgrano,hotmail
 Jujuy,Dr. Manuel Belgrano,imagine
+Jujuy,Dr. Manuel Belgrano,hotmail
 Jujuy,Dr. Manuel Belgrano,yahoo
 Jujuy,El Carmen,gmail
 Jujuy,San Antonio,hotmail
@@ -236,14 +236,14 @@ Jujuy,San Pedro,hotmail
 La Pampa,Atreucó,gmail
 La Pampa,Caleu Caleu,hotmail
 La Pampa,Capital,gmail
-La Pampa,Catriló,bepe
 La Pampa,Catriló,yahoo
+La Pampa,Catriló,bepe
+La Pampa,Chapaleufú,yahoo
 La Pampa,Chapaleufú,hotmail
 La Pampa,Chapaleufú,gmail
-La Pampa,Chapaleufú,yahoo
 La Pampa,Conhelo,yahoo
-La Pampa,Guatraché,gmail
 La Pampa,Guatraché,yahoo
+La Pampa,Guatraché,gmail
 La Pampa,Hucal,hotmail
 La Pampa,Loventué,hotmail
 La Pampa,Maracó,yahoo
@@ -262,27 +262,27 @@ Mendoza,General Alvear,yahoo
 Mendoza,Godoy Cruz,hotmail
 Mendoza,Guaymallén,yahoo
 Mendoza,Junín,gmail
-Mendoza,Las Heras,yahoo
 Mendoza,Las Heras,live
+Mendoza,Las Heras,yahoo
 Mendoza,Lavalle,hotmail
 Mendoza,Luján de Cuyo,yahoo
 Mendoza,Maipú,gmail
 Mendoza,Maipú,hotmail
 Mendoza,Rivadavia,hotmail
 Mendoza,San Carlos,yahoo
+Mendoza,San Martín,yahoo
 Mendoza,San Martín,gmail
 Mendoza,San Martín,hotmail
-Mendoza,San Martín,yahoo
 Mendoza,San Rafael,yahoo
 Mendoza,Santa Rosa,gmail
-Mendoza,Tunuyán,yahoo
 Mendoza,Tunuyán,gmail
+Mendoza,Tunuyán,yahoo
 Mendoza,Tupungato,gmail
 Misiones,25 de Mayo,yahoo
 Misiones,Candelaria,gmail
 Misiones,Capital,arnetbiz
-Misiones,Capital,yahoo
 Misiones,Capital,gmail
+Misiones,Capital,yahoo
 Misiones,Eldorado,hotmail
 Misiones,Leandro N. Alem,hotmail
 Misiones,Libertador General San Martín,live
@@ -301,30 +301,30 @@ Neuquén,Minas,yahoo
 Neuquén,Pehuenches,hotmail
 Neuquén,Ñorquín,hotmail
 Río Negro,25 de Mayo,yahoo
-Río Negro,Adolfo Alsina,hotmail
-Río Negro,Adolfo Alsina,yahoo
 Río Negro,Adolfo Alsina,live
+Río Negro,Adolfo Alsina,yahoo
+Río Negro,Adolfo Alsina,hotmail
 Río Negro,Avellaneda,yahoo
-Río Negro,Bariloche,elbolson
-Río Negro,Bariloche,bibliotecasarmiento
-Río Negro,Bariloche,yahoo
-Río Negro,Bariloche,hotmail
-Río Negro,Bariloche,gmail
 Río Negro,Bariloche,bariloche
+Río Negro,Bariloche,elbolson
+Río Negro,Bariloche,gmail
+Río Negro,Bariloche,hotmail
+Río Negro,Bariloche,yahoo
+Río Negro,Bariloche,bibliotecasarmiento
 Río Negro,Conesa,gmail
-Río Negro,General Roca,hotmail
 Río Negro,General Roca,yahoo
-Río Negro,Pilcaniyeu,yahoo
+Río Negro,General Roca,hotmail
 Río Negro,Pilcaniyeu,gmail
+Río Negro,Pilcaniyeu,yahoo
 Río Negro,San Antonio,yahoo
 Río Negro,Valcheta,yahoo
 Río Negro,Ñorquinco,gmail
 Salta,Capital,hotmail
 Salta,Cerrillos,yahoo
-Salta,General Güemes,yahoo
 Salta,General Güemes,gmail
-Salta,General José de San Martín,hotmail
+Salta,General Güemes,yahoo
 Salta,General José de San Martín,yahoo
+Salta,General José de San Martín,hotmail
 Salta,La Caldera,yahoo
 Salta,La Candelaria,gmail
 Salta,Metán,yahoo
@@ -337,8 +337,8 @@ San Juan,Rivadavia,hotmail
 San Juan,San Martín,yahoo
 San Juan,Santa Lucía,yahoo
 San Juan,Ullum,gmail
-San Juan,Valle Fértil,gmail
 San Juan,Valle Fértil,hotmail
+San Juan,Valle Fértil,gmail
 San Luis,Chacabuco,hotmail
 San Luis,Coronel Pringles,hotmail
 San Luis,General Pedernera,yahoo
@@ -362,23 +362,23 @@ Santa Fe,Iriondo,hotmail
 Santa Fe,La Capital,gmail
 Santa Fe,Las Colonias,hotmail
 Santa Fe,Rosario,hotmail
-Santa Fe,San Cristóbal,gmail
 Santa Fe,San Cristóbal,hotmail
+Santa Fe,San Cristóbal,gmail
+Santa Fe,San Javier,yahoo
 Santa Fe,San Javier,hotmail
 Santa Fe,San Javier,romang
-Santa Fe,San Javier,yahoo
 Santa Fe,San Jerónimo,hotmail
 Santa Fe,San Justo,hotmail
-Santa Fe,San Lorenzo,yahoo
-Santa Fe,San Lorenzo,arnet
 Santa Fe,San Lorenzo,hotmail
 Santa Fe,San Lorenzo,gmail
-Santa Fe,San Martín,sme
+Santa Fe,San Lorenzo,yahoo
+Santa Fe,San Lorenzo,arnet
 Santa Fe,San Martín,gmail
-Santa Fe,Vera,hotmail
-Santa Fe,Vera,trcnet
-Santa Fe,Vera,csdnet
+Santa Fe,San Martín,sme
 Santa Fe,Vera,cosemar
+Santa Fe,Vera,hotmail
+Santa Fe,Vera,csdnet
+Santa Fe,Vera,trcnet
 Santiago del Estero,Avellaneda,hotmail
 Santiago del Estero,Banda,hotmail
 Santiago del Estero,Belgrano,hotmail
