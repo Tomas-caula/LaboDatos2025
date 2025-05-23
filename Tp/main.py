@@ -508,5 +508,7 @@ def grafico_IV():
     plt.show()
 
 
-# grafico_I()
+grafico_I()
+grafico_II(pd.read_csv("consulta1.csv"))
 grafico_III()
+grafico_IV()

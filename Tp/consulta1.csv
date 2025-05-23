@@ -10,13 +10,13 @@ Buenos Aires,Merlo,108,27105,120,71541,125,59718
 Buenos Aires,Lanús,116,16028,117,44506,113,39855
 Buenos Aires,Pilar,108,18864,112,49944,105,41528
 Buenos Aires,Tigre,120,18454,111,51961,107,45401
-Buenos Aires,Florencio Varela,98,24703,98,64455,102,52426
 Buenos Aires,General San Martín,97,15897,98,44539,96,39634
+Buenos Aires,Florencio Varela,98,24703,98,64455,102,52426
 Buenos Aires,Bahía Blanca,94,12522,95,33944,81,28746
 Buenos Aires,Berazategui,99,14843,94,41462,97,35467
-Buenos Aires,San Miguel,84,13979,91,37035,97,30653
 Buenos Aires,Avellaneda,117,13168,91,37082,76,32476
 Buenos Aires,Morón,93,10346,91,28780,86,26584
+Buenos Aires,San Miguel,84,13979,91,37035,97,30653
 Buenos Aires,San Isidro,91,9488,89,26323,88,25052
 Buenos Aires,Tres de Febrero,101,12280,87,33616,83,30170
 Buenos Aires,Malvinas Argentinas,76,14565,81,40319,87,34959
@@ -33,82 +33,82 @@ Buenos Aires,Azul,38,3086,54,8219,27,7066
 Buenos Aires,Necochea,39,3905,50,10545,35,9347
 Buenos Aires,Chivilcoy,33,2733,49,7181,22,6479
 Buenos Aires,Luján,51,4701,49,12341,38,10388
-Buenos Aires,25 de Mayo,37,1498,47,3733,17,3238
 Buenos Aires,Trenque Lauquen,41,2171,47,5326,17,4442
-Buenos Aires,Ezeiza,53,9825,46,25615,45,21089
+Buenos Aires,25 de Mayo,37,1498,47,3733,17,3238
 Buenos Aires,Hurlingham,45,6675,46,18866,50,16751
 Buenos Aires,Junín,42,4127,46,10433,35,8728
+Buenos Aires,Ezeiza,53,9825,46,25615,45,21089
 Buenos Aires,Ituzaingó,49,6232,45,17692,47,16004
 Buenos Aires,Zárate,42,5546,45,15431,37,13300
 Buenos Aires,Mercedes,39,3084,44,7882,25,6753
 Buenos Aires,Campana,40,4628,43,12587,41,10846
 Buenos Aires,San Pedro,31,3165,42,8283,25,7113
-Buenos Aires,Tres Arroyos,35,2432,41,6392,22,5392
 Buenos Aires,Lincoln,31,1843,41,4674,19,4080
+Buenos Aires,Tres Arroyos,35,2432,41,6392,22,5392
 Buenos Aires,Cañuelas,30,3575,39,9538,30,7497
 Buenos Aires,Las Flores,16,1101,39,2771,10,2543
-Buenos Aires,Chascomús,24,1873,38,4976,19,4223
 Buenos Aires,Balcarce,31,1973,38,5070,20,4268
+Buenos Aires,Chascomús,24,1873,38,4976,19,4223
 Buenos Aires,Chacabuco,32,1940,37,5344,19,4811
-Buenos Aires,9 de Julio,35,2262,37,5830,21,4999
 Buenos Aires,Bolívar,30,1590,37,3857,15,3206
+Buenos Aires,9 de Julio,35,2262,37,5830,21,4999
 Buenos Aires,Ayacucho,21,985,36,2442,12,2150
 Buenos Aires,Saladillo,25,1476,36,3785,13,3339
 Buenos Aires,Lobos,28,1853,35,4668,15,4035
 Buenos Aires,Coronel Suárez,34,1573,35,4418,22,3537
-Buenos Aires,Pehuajó,30,1886,34,4827,18,4284
 Buenos Aires,General Rodríguez,38,7808,34,20970,32,15698
-Buenos Aires,San Vicente,32,5505,32,14032,20,10952
+Buenos Aires,Pehuajó,30,1886,34,4827,18,4284
 Buenos Aires,Lobería,19,699,32,1865,10,1638
-Buenos Aires,General Villegas,30,1510,32,4006,17,3428
 Buenos Aires,Villarino,23,1415,32,3677,14,3288
+Buenos Aires,General Villegas,30,1510,32,4006,17,3428
+Buenos Aires,San Vicente,32,5505,32,14032,20,10952
 Buenos Aires,Navarro,22,828,30,2341,9,2082
 Buenos Aires,San Andrés de Giles,27,1236,29,3031,16,2583
 Buenos Aires,Patagones,23,1630,28,4262,14,3335
 Buenos Aires,Berisso,26,4327,28,11779,25,9722
 Buenos Aires,Baradero,27,1697,27,4372,19,3818
-Buenos Aires,General Alvear,14,429,26,1137,6,912
 Buenos Aires,Coronel de Marina Leonardo Rosales,23,2684,26,7353,19,6424
 Buenos Aires,Mar Chiquita,19,1423,26,3622,13,3044
-Buenos Aires,General Paz,15,639,25,1705,6,1390
+Buenos Aires,General Alvear,14,429,26,1137,6,912
 Buenos Aires,Roque Pérez,17,615,25,1572,6,1316
+Buenos Aires,General Paz,15,639,25,1705,6,1390
+Buenos Aires,Coronel Pringles,19,1075,24,2791,11,2166
+Buenos Aires,La Costa,28,4245,24,11364,22,10072
 Buenos Aires,Marcos Paz,24,3460,24,8477,17,7148
 Buenos Aires,Ramallo,11,1929,24,4707,11,4088
-Buenos Aires,La Costa,28,4245,24,11364,22,10072
-Buenos Aires,Coronel Pringles,19,1075,24,2791,11,2166
 Buenos Aires,Magdalena,20,1042,23,2768,15,2260
 Buenos Aires,Carlos Casares,18,979,23,2491,14,2110
-Buenos Aires,General Juan Madariaga,18,909,23,2637,11,2375
 Buenos Aires,Adolfo Alsina,18,732,23,1697,12,1437
-Buenos Aires,Bragado,17,1884,22,4807,16,4203
-Buenos Aires,Tapalqué,14,486,22,1125,5,1059
+Buenos Aires,General Juan Madariaga,18,909,23,2637,11,2375
 Buenos Aires,Rauch,20,669,22,1761,7,1519
 Buenos Aires,Brandsen,20,1475,22,3997,17,3510
-Buenos Aires,Daireaux,18,790,21,1986,10,1828
+Buenos Aires,Bragado,17,1884,22,4807,16,4203
+Buenos Aires,Tapalqué,14,486,22,1125,5,1059
 Buenos Aires,General Alvarado,20,1945,21,4822,20,4254
 Buenos Aires,Dolores,11,1398,21,3369,9,2998
+Buenos Aires,Daireaux,18,790,21,1986,10,1828
 Buenos Aires,Exaltación de la Cruz,19,1929,21,4920,14,3860
-Buenos Aires,Arrecifes,17,1435,20,3542,10,2961
-Buenos Aires,Rivadavia,17,942,20,2317,10,1873
-Buenos Aires,Tornquist,16,570,20,1549,12,1238
 Buenos Aires,Coronel Dorrego,18,632,20,1609,10,1418
+Buenos Aires,Tornquist,16,570,20,1549,12,1238
+Buenos Aires,Rivadavia,17,942,20,2317,10,1873
+Buenos Aires,Arrecifes,17,1435,20,3542,10,2961
 Buenos Aires,Rojas,17,1027,20,2724,9,2362
 Buenos Aires,Salto,20,1728,20,4405,14,3794
-Buenos Aires,Carmen de Areco,16,785,19,1927,9,1709
 Buenos Aires,Carlos Tejedor,17,628,19,1557,9,1266
+Buenos Aires,Carmen de Areco,16,785,19,1927,9,1709
 Buenos Aires,Presidente Perón,22,5563,19,14476,19,11730
 Buenos Aires,Saavedra,15,785,18,2109,10,1799
-Buenos Aires,San Antonio de Areco,18,1168,18,2873,11,2569
-Buenos Aires,Puan,14,541,18,1459,13,1232
-Buenos Aires,Ensenada,17,2860,18,7776,16,6660
-Buenos Aires,Monte,16,1098,18,3031,10,2380
-Buenos Aires,Guaminí,16,460,18,1189,8,1063
 Buenos Aires,Castelli,7,416,18,1013,3,904
+Buenos Aires,Monte,16,1098,18,3031,10,2380
+Buenos Aires,Puan,14,541,18,1459,13,1232
+Buenos Aires,Guaminí,16,460,18,1189,8,1063
+Buenos Aires,San Antonio de Areco,18,1168,18,2873,11,2569
 Buenos Aires,General Viamonte,14,1002,18,2538,9,2039
+Buenos Aires,Ensenada,17,2860,18,7776,16,6660
+Buenos Aires,General La Madrid,13,474,16,1263,8,980
+Buenos Aires,General Belgrano,11,899,16,2272,9,1893
 Buenos Aires,Laprida,11,532,16,1366,5,1152
 Buenos Aires,General Las Heras,16,836,16,2054,6,1823
-Buenos Aires,General Belgrano,11,899,16,2272,9,1893
-Buenos Aires,General La Madrid,13,474,16,1263,8,980
 Buenos Aires,Colón,16,1112,15,2851,11,2561
 Buenos Aires,Pila,9,248,15,592,2,441
 Buenos Aires,Leandro N. Alem,11,739,15,1838,7,1700
@@ -119,20 +119,20 @@ Buenos Aires,General Guido,6,137,14,338,3,304
 Buenos Aires,Benito Juárez,11,916,13,2277,10,2015
 Buenos Aires,General Pinto,9,585,13,1321,7,1175
 Buenos Aires,Alberti,11,495,12,1378,7,1198
-Buenos Aires,Maipú,10,503,12,1234,5,995
 Buenos Aires,Capitán Sarmiento,10,625,12,1713,6,1441
 Buenos Aires,Villa Gesell,11,1476,12,4267,12,3801
+Buenos Aires,Maipú,10,503,12,1234,5,995
 Buenos Aires,Lezama,4,255,11,639,4,570
-Buenos Aires,Pinamar,12,1719,10,4519,9,3979
 Buenos Aires,General Arenales,11,655,10,1535,10,1404
 Buenos Aires,San Cayetano,7,314,10,865,4,747
-Buenos Aires,Hipólito Yrigoyen,7,435,9,1110,5,965
+Buenos Aires,Pinamar,12,1719,10,4519,9,3979
 Buenos Aires,Florentino Ameghino,9,470,9,1275,7,1107
+Buenos Aires,Hipólito Yrigoyen,7,435,9,1110,5,965
 Buenos Aires,General Lavalle,7,250,8,636,3,493
 Buenos Aires,Tres Lomas,6,380,7,989,4,831
 Buenos Aires,Pellegrini,6,373,6,831,4,610
-Buenos Aires,Tordillo,4,136,5,298,1,231
 Buenos Aires,Salliqueló,5,366,5,963,4,846
+Buenos Aires,Tordillo,4,136,5,298,1,231
 Buenos Aires,Monte Hermoso,4,317,3,942,3,782
 Catamarca,Belén,45,1434,57,3513,27,3350
 Catamarca,La Paz,29,1261,51,3146,18,2844
@@ -142,8 +142,8 @@ Catamarca,Santa María,27,1238,33,2998,28,2619
 Catamarca,Capayán,24,898,29,2244,12,2043
 Catamarca,Ancasti,7,137,28,334,5,322
 Catamarca,Andalgalá,17,870,26,2037,15,2051
-Catamarca,El Alto,16,204,25,517,9,485
 Catamarca,Santa Rosa,17,625,25,1476,11,1361
+Catamarca,El Alto,16,204,25,517,9,485
 Catamarca,Pomán,13,554,20,1480,12,1321
 Catamarca,Ambato,13,218,18,439,5,401
 Catamarca,Valle Viejo,17,1520,18,3862,14,3346
@@ -161,39 +161,39 @@ Chaco,Mayor Luis J. Fontana,40,3161,47,7600,18,5872
 Chaco,9 de Julio,28,1620,43,3572,9,3053
 Chaco,25 de Mayo,23,1763,40,4543,9,3788
 Chaco,Chacabuco,27,1714,33,4114,11,3194
-Chaco,O'Higgins,28,1099,32,3018,10,2575
 Chaco,Bermejo,25,1344,32,3431,13,2793
+Chaco,O'Higgins,28,1099,32,3018,10,2575
 Chaco,San Lorenzo,16,929,31,2119,5,1694
-Chaco,12 de Octubre,22,1126,30,2851,11,2323
 Chaco,Sargento Cabral,14,961,30,2286,7,1912
+Chaco,12 de Octubre,22,1126,30,2851,11,2323
 Chaco,Independencia,16,1262,27,3020,6,2776
 Chaco,Fray Justo Santa María de Oro,15,522,21,1305,7,1039
 Chaco,Presidencia de la Plaza,11,756,16,1853,4,1510
 Chaco,2 de Abril,8,407,16,895,4,768
 Chaco,General Donovan,11,747,15,1794,7,1513
-Chaco,1º de Mayo,9,760,12,1810,7,1262
 Chaco,General Belgrano,6,771,12,1698,3,1470
+Chaco,1º de Mayo,9,760,12,1810,7,1262
 Chaco,Libertad,9,714,11,1682,5,1357
 Chaco,Tapenagá,5,207,10,505,2,442
 Chubut,Escalante,68,9406,63,25207,47,20255
 Chubut,Rawson,64,5876,50,15641,35,13427
-Chubut,Futaleufú,26,2036,28,5702,23,4656
 Chubut,Biedma,30,4374,28,12244,24,10407
+Chubut,Futaleufú,26,2036,28,5702,23,4656
 Chubut,Cushamen,22,1171,26,3216,19,2710
 Chubut,Gaiman,9,540,9,1396,9,1244
 Chubut,Río Senguer,8,305,9,746,7,517
 Chubut,Sarmiento,8,769,8,1995,4,1510
+Chubut,Gastre,4,52,5,108,5,97
 Chubut,Languiñeo,5,141,5,297,5,269
 Chubut,Tehuelches,4,267,5,754,4,546
-Chubut,Gastre,4,52,5,108,5,97
 Chubut,Telsen,3,60,4,167,4,151
 Chubut,Florentino Ameghino,2,103,2,221,1,157
 Chubut,Mártires,2,43,2,74,1,54
 Chubut,Paso de Indios,3,76,2,191,3,147
 Ciudad de Buenos Aires,Comuna 4,70,8119,84,22520,41,18869
 Ciudad de Buenos Aires,Comuna 13,77,6553,79,17774,57,16311
-Ciudad de Buenos Aires,Comuna 11,64,5321,72,14922,34,13918
 Ciudad de Buenos Aires,Comuna 12,69,6676,72,17210,39,14615
+Ciudad de Buenos Aires,Comuna 11,64,5321,72,14922,34,13918
 Ciudad de Buenos Aires,Comuna 7,59,6129,65,17292,32,15351
 Ciudad de Buenos Aires,Comuna 9,57,5015,62,14531,28,13545
 Ciudad de Buenos Aires,Comuna 10,62,4745,61,13286,30,12254
@@ -208,20 +208,20 @@ Ciudad de Buenos Aires,Comuna 2,41,3521,37,8758,27,9155
 Corrientes,Capital,134,19680,97,47808,72,40759
 Corrientes,Goya,83,4959,96,12729,31,11020
 Corrientes,Esquina,46,2117,56,4809,15,4256
-Corrientes,Curuzú Cuatiá,38,2522,49,6209,16,5270
 Corrientes,Santo Tomé,45,3709,49,9454,22,7725
+Corrientes,Curuzú Cuatiá,38,2522,49,6209,16,5270
 Corrientes,San Luis del Palmar,31,1037,42,2392,11,2129
+Corrientes,Monte Caseros,29,2277,39,5486,13,4434
 Corrientes,Empedrado,24,877,39,2041,8,1795
 Corrientes,Lavalle,37,2407,39,5545,14,4384
 Corrientes,Mercedes,35,2649,39,6120,15,4682
-Corrientes,Monte Caseros,29,2277,39,5486,13,4434
 Corrientes,Bella Vista,36,2328,37,5598,12,4349
-Corrientes,Concepción,25,1534,34,3721,8,3145
 Corrientes,Paso de los Libres,31,2964,34,7451,14,6405
+Corrientes,Concepción,25,1534,34,3721,8,3145
 Corrientes,Ituzaingó,29,2033,33,4878,14,4073
 Corrientes,General Paz,30,798,32,1916,12,1636
-Corrientes,San Roque,24,1145,28,2726,9,2356
 Corrientes,Saladas,27,1455,28,3566,9,3134
+Corrientes,San Roque,24,1145,28,2726,9,2356
 Corrientes,San Martín,16,819,24,1980,9,1694
 Corrientes,San Cosme,22,902,22,2191,7,1708
 Corrientes,Sauce,15,529,18,1251,6,1114
@@ -239,8 +239,8 @@ Córdoba,Cruz del Eje,69,3124,82,7539,23,6409
 Córdoba,Punilla,76,8649,81,22996,56,19945
 Córdoba,Marcos Juárez,67,4276,80,10712,36,9015
 Córdoba,General San Martín,73,6949,79,16719,37,13699
-Córdoba,Río Primero,62,2879,72,6664,30,5637
 Córdoba,Río Segundo,60,4752,72,12120,46,10358
+Córdoba,Río Primero,62,2879,72,6664,30,5637
 Córdoba,Tercero Arriba,62,5123,68,12660,40,10615
 Córdoba,Santa María,64,6745,68,16655,43,13320
 Córdoba,Calamuchita,57,3329,67,8474,30,7104
@@ -264,8 +264,8 @@ Entre Ríos,Villaguay,78,2582,93,6258,27,5445
 Entre Ríos,Concordia,104,9948,90,24910,57,19760
 Entre Ríos,Nogoyá,69,1874,87,4731,27,3961
 Entre Ríos,Federación,65,3853,76,9326,30,7362
-Entre Ríos,Federal,47,1448,56,3327,16,2784
 Entre Ríos,Diamante,50,2155,56,5216,27,4404
+Entre Ríos,Federal,47,1448,56,3327,16,2784
 Entre Ríos,Gualeguay,49,2558,55,6359,21,5287
 Entre Ríos,Colón,52,3368,52,8095,26,6808
 Entre Ríos,Tala,38,1410,47,3601,17,2963
@@ -276,8 +276,8 @@ Entre Ríos,San Salvador,19,947,19,2487,7,2170
 Formosa,Patiño,101,4619,129,11476,77,8864
 Formosa,Pirané,66,3897,100,9417,67,7940
 Formosa,Formosa,108,11953,91,30764,65,26381
-Formosa,Bermejo,46,987,61,2371,20,1864
 Formosa,Pilcomayo,70,4950,61,11883,45,9453
+Formosa,Bermejo,46,987,61,2371,20,1864
 Formosa,Ramón Lista,35,1333,59,3239,15,2578
 Formosa,Pilagás,27,1003,34,2530,19,2118
 Formosa,Matacos,14,1019,24,2539,13,2024
@@ -305,8 +305,8 @@ La Pampa,Realicó,10,709,12,1924,12,1672
 La Pampa,Rancul,8,509,11,1281,8,1164
 La Pampa,Conhelo,10,607,10,1567,11,1227
 La Pampa,Chapaleufú,9,551,9,1353,9,1136
-La Pampa,Atreucó,6,420,8,1146,7,1002
 La Pampa,Puelén,6,614,8,1576,6,1178
+La Pampa,Atreucó,6,420,8,1146,7,1002
 La Pampa,Toay,7,899,7,2436,4,1773
 La Pampa,Guatraché,6,358,7,894,6,827
 La Pampa,Quemú Quemú,5,332,7,825,5,807
@@ -315,14 +315,14 @@ La Pampa,Catriló,5,372,5,1019,4,794
 La Pampa,Hucal,6,286,5,693,4,617
 La Pampa,Trenel,4,249,4,580,4,495
 La Pampa,Chical Co,2,66,3,180,2,163
-La Pampa,Caleu Caleu,2,110,2,325,1,283
 La Pampa,Curacó,2,54,2,125,2,90
+La Pampa,Caleu Caleu,2,110,2,325,1,283
 La Pampa,Limay Mahuida,2,14,2,46,1,24
 La Pampa,Lihuel Calel,1,22,1,52,1,44
 La Pampa,Chalileo,1,130,1,354,2,270
 La Rioja,Capital,89,8628,83,23293,43,20533
-La Rioja,Rosario Vera Peñaloza,25,745,32,1900,22,1616
 La Rioja,Chilecito,31,2573,32,7038,20,6402
+La Rioja,Rosario Vera Peñaloza,25,745,32,1900,22,1616
 La Rioja,General Ortiz de Ocampo,12,298,29,765,10,696
 La Rioja,General Juan Facundo Quiroga,22,187,25,406,13,417
 La Rioja,General San Martín,13,222,24,643,15,550
@@ -333,8 +333,8 @@ La Rioja,Ángel Vicente Peñaloza,11,138,16,392,11,296
 La Rioja,Famatina,14,265,14,757,5,711
 La Rioja,Arauco,14,764,13,1915,8,1593
 La Rioja,Independencia,7,111,10,291,7,257
-La Rioja,Castro Barros,6,239,7,626,4,511
 La Rioja,San Blas de Los Sauces,6,194,7,501,4,422
+La Rioja,Castro Barros,6,239,7,626,4,511
 La Rioja,Vinchina,6,116,6,294,3,257
 La Rioja,General Lamadrid,2,86,2,191,1,187
 La Rioja,Sanagasta,1,124,1,361,1,270
@@ -342,8 +342,8 @@ Mendoza,San Rafael,127,9770,130,24756,56,19958
 Mendoza,Guaymallén,86,14431,87,36996,48,29798
 Mendoza,Maipú,75,10215,70,26442,32,21528
 Mendoza,Godoy Cruz,66,7559,67,19838,34,16701
-Mendoza,Capital,63,4557,62,11563,57,9394
 Mendoza,San Martín,60,6520,62,17257,24,13262
+Mendoza,Capital,63,4557,62,11563,57,9394
 Mendoza,Las Heras,55,11303,55,28992,29,23685
 Mendoza,Luján de Cuyo,56,7858,55,20822,24,17463
 Mendoza,Lavalle,44,2567,46,6674,17,5019
@@ -418,8 +418,8 @@ Salta,Cerrillos,22,2984,18,8047,9,6079
 Salta,Chicoana,18,1137,18,3014,6,2568
 Salta,Cachi,15,459,16,1236,6,883
 Salta,Molinos,14,302,14,837,6,706
-Salta,Cafayate,10,804,10,2378,6,1887
 Salta,Guachipas,8,185,10,403,2,332
+Salta,Cafayate,10,804,10,2378,6,1887
 Salta,La Caldera,12,547,9,1430,3,1076
 Salta,Los Andes,9,495,8,1130,4,923
 Salta,La Poma,7,99,8,260,2,234
@@ -431,19 +431,19 @@ San Juan,Rivadavia,35,4713,35,11692,17,9610
 San Juan,Jáchal,31,1168,33,2781,27,2398
 San Juan,Pocito,26,4016,27,10435,14,8555
 San Juan,Caucete,23,2312,26,5636,20,5029
-San Juan,Sarmiento,23,1597,26,3853,20,3304
 San Juan,Chimbas,20,5416,26,13494,20,11469
+San Juan,Sarmiento,23,1597,26,3853,20,3304
 San Juan,25 de Mayo,22,1285,22,2998,17,2605
-San Juan,Valle Fértil,19,414,20,963,19,801
 San Juan,Santa Lucía,17,3160,20,7756,8,6279
+San Juan,Valle Fértil,19,414,20,963,19,801
 San Juan,Calingasta,17,606,17,1476,14,1116
 San Juan,Iglesia,11,429,14,1084,10,908
 San Juan,Albardón,13,1568,13,4253,8,3543
-San Juan,San Martín,12,836,12,2165,5,1718
 San Juan,Angaco,12,519,12,1380,8,1164
+San Juan,San Martín,12,836,12,2165,5,1718
 San Juan,9 de Julio,5,729,5,1704,2,1390
-San Juan,Zonda,2,362,2,881,2,729
 San Juan,Ullum,2,357,2,864,1,704
+San Juan,Zonda,2,362,2,881,2,729
 San Luis,Juan Martín de Pueyrredón,94,10712,106,28921,111,27055
 San Luis,General Pedernera,57,6523,68,17217,67,15346
 San Luis,Ayacucho,18,1087,42,2770,40,2471
@@ -482,10 +482,10 @@ Santa Fe,Garay,19,1219,22,2920,8,2238
 Santiago del Estero,Capital,140,15140,113,37231,97,30377
 Santiago del Estero,Banda,120,9064,105,21600,64,17110
 Santiago del Estero,Copo,34,2124,77,4966,20,4367
-Santiago del Estero,Pellegrini,52,1418,69,3634,35,2937
 Santiago del Estero,Moreno,46,2441,69,5635,22,5178
-Santiago del Estero,Río Hondo,67,3438,68,8569,43,6856
+Santiago del Estero,Pellegrini,52,1418,69,3634,35,2937
 Santiago del Estero,Figueroa,52,1183,68,2803,26,2471
+Santiago del Estero,Río Hondo,67,3438,68,8569,43,6856
 Santiago del Estero,Alberdi,37,1184,59,2854,18,2369
 Santiago del Estero,General Taboada,42,2553,53,6042,10,5394
 Santiago del Estero,Avellaneda,30,1481,52,3527,26,3231
@@ -494,14 +494,14 @@ Santiago del Estero,Juan Felipe Ibarra,31,1139,47,3004,15,2585
 Santiago del Estero,Loreto,52,1155,45,3051,29,2561
 Santiago del Estero,Ojo de Agua,29,758,44,1714,10,1633
 Santiago del Estero,Quebrachos,27,741,43,1585,12,1324
-Santiago del Estero,Robles,46,2959,39,7173,24,5982
 Santiago del Estero,Salavina,29,666,39,1746,19,1654
+Santiago del Estero,Robles,46,2959,39,7173,24,5982
 Santiago del Estero,Jiménez,27,980,38,2376,31,2055
 Santiago del Estero,San Martín,27,610,36,1602,19,1480
 Santiago del Estero,Atamisqui,26,822,26,2168,14,1880
 Santiago del Estero,Guasayán,18,494,23,1095,12,941
-Santiago del Estero,Silípica,14,464,16,1173,14,1076
 Santiago del Estero,Sarmiento,9,286,16,722,8,624
+Santiago del Estero,Silípica,14,464,16,1173,14,1076
 Santiago del Estero,Rivadavia,12,261,16,649,3,539
 Santiago del Estero,Aguirre,10,434,13,1064,6,941
 Santiago del Estero,Belgrano,7,585,12,1293,5,1074
