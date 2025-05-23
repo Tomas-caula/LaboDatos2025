@@ -30,28 +30,75 @@ diccionario_caba = {
 }
 
 
+codigos_postales = [
+    "02103",
+    "02106",
+    "02110",
+    "02108",
+    "02104",
+    "02108",
+    "02101",
+    "02112",
+    "02107",
+    "02101",
+    "02107",
+    "02111",
+    "02114",
+    "02112",
+    "02115",
+    "02115",
+    "02112",
+    "02109",
+    "02111",
+    "02115",
+    "02103",
+    "02105",
+    "02111",
+    "02106",
+    "02109",
+    "02115",
+    "02105",
+    "02109",
+    "02104",
+    "02109",
+    "02107",
+    "02101",
+    "02108",
+    "02104",
+    "02102",
+    "02111",
+    "02106",
+    "02106",
+    "02112",
+    "02115",
+    "02112",
+    "02112",
+    "02109",
+]
+
+
 def tabla_relaciones_EE():
     establecimientosEducativosComunes = "EEcomunes.csv"
     filtrados = []
-    filtrados.append(establecimientos.iloc[4, [4, 8, 9, 17, 18, 19]])
+    filtrados.append(establecimientos.iloc[4, [4, 9, 17, 18, 19]])
     for i in range(5, len(establecimientos)):
         if establecimientos.iloc[i, 13] == "1":
-            filtrados.append(establecimientos.iloc[i, [4, 8, 9, 17, 18, 19]])
+            filtrados.append(establecimientos.iloc[i, [4, 9, 17, 18, 19]])
     filtrados_df = pd.DataFrame(filtrados)
     columnas = {
         filtrados_df.columns[0]: "id_departamento",
-        filtrados_df.columns[1]: "nombre",
-        filtrados_df.columns[2]: "domicilio",
-        filtrados_df.columns[3]: "jardin_infantes",
-        filtrados_df.columns[4]: "primario",
-        filtrados_df.columns[5]: "secundario",
+        # filtrados_df.columns[1]: "nombre",
+        filtrados_df.columns[1]: "domicilio",
+        filtrados_df.columns[2]: "jardin_infantes",
+        filtrados_df.columns[3]: "primario",
+        filtrados_df.columns[4]: "secundario",
     }
     filtrados_df = filtrados_df.rename(columns=columnas)
     filtrados_df = filtrados_df[filtrados_df["secundario"] != "Secundario"]
-    filtrados_df.loc[
-        filtrados_df["id_departamento"].isin(diccionario_caba.values()),
-        "id_departamento",
-    ] = "02000"
+    # filtrados_df.loc[
+    #     filtrados_df["id_departamento"].isin(diccionario_caba.values()),
+    #     "id_departamento",
+    # ] = "02000"
     filtrados_df.to_csv(
         establecimientosEducativosComunes,
         encoding="utf-8",
@@ -79,27 +126,14 @@ def tabla_relaciones_BP():
         filtrados_df.columns[2]: "fecha_fundacion",
     }
     filtrados_df = filtrados_df.rename(columns=columnas)
+
+    for index in range(len(codigos_postales)):
+        filtrados_df.loc[649 + index, filtrados_df.columns[0]] = codigos_postales[index]
+
     filtrados_df.to_csv(
         bibliotecasPopulares, encoding="utf-8", index=True, index_label="id_biblioteca"
     )
     return filtrados_df
-
-
-def unir_comunas(df):
-    filas_sumar = df[df["id_departamento"].isin(diccionario_caba.keys())]
-    suma_jardin = filas_sumar["poblacion jardin"].sum()
-    suma_primaria = filas_sumar["poblacion primario"].sum()
-    suma_secundaria = filas_sumar["poblacion secundario"].sum()
-    df = df[~df["id_departamento"].isin(diccionario_caba.keys())]
-    df.loc[len(df)] = [
-        "02000",
-        "Ciudad de Buenos Aires",
-        suma_jardin,
-        suma_primaria,
-        suma_secundaria,
-        "Ciudad de Buenos Aires",
-    ]
-    return df
 
 
 def obtener_provincia(codigo):
@@ -136,6 +170,7 @@ def tabla_departamentos():
         "poblacion jardin",
         "poblacion primario",
         "poblacion secundario",
+        "total poblacion",
     ]
     df_departamentos = pd.DataFrame(columns=col_dep)
     poblacion = poblacion.iloc[12:, 1:3].dropna(thresh=1)
@@ -150,6 +185,7 @@ def tabla_departamentos():
     cuenta_jardin = 0
     cuenta_primario = 0
     cuenta_secundario = 0
+    total_poblacion = 0
     while index < len(poblacion):
         if "#" in poblacion["edad"][index]:
             df_departamentos.loc[len(df_departamentos)] = [
@@ -158,26 +194,37 @@ def tabla_departamentos():
                 cuenta_jardin,
                 cuenta_primario,
                 cuenta_secundario,
+                total_poblacion,
             ]
             area = poblacion["edad"][index].split(" ")[2]
             nombre = poblacion["casos"][index]
             cuenta_jardin = 0
             cuenta_primario = 0
             cuenta_secundario = 0
+            total_poblacion = 0
         elif 3 <= int(poblacion["edad"][index]) <= 5:
             valor = str(poblacion["casos"][index]).replace(" ", "").strip()
             cuenta_jardin += int(valor)
+            total_poblacion += int(valor)
         elif 5 <= int(poblacion["edad"][index]) <= 12:
             valor = str(poblacion["casos"][index]).replace(" ", "").strip()
             cuenta_primario += int(valor)
+            total_poblacion += int(valor)
         elif 12 <= int(poblacion["edad"][index]) <= 18:
             valor = str(poblacion["casos"][index]).replace(" ", "").strip()
+            total_poblacion += int(valor)
             cuenta_secundario += int(valor)
+        else:
+            valor = str(poblacion["casos"][index]).replace(" ", "").strip()
+            total_poblacion += int(valor)
         index += 1
     df_departamentos["provincia"] = df_departamentos["id_departamento"].apply(
         obtener_provincia
     )
-    df_departamentos = unir_comunas(df_departamentos)
+    df_departamentos["id_departamento"] = df_departamentos["id_departamento"].replace(
+        diccionario_caba
+    )
+    # df_departamentos = unir_comunas(df_departamentos) Antes pensabamos que era una buena unir todo el departamento de caba, claramente mala idea
     df_departamentos.to_csv(departamentos, index=False, encoding="utf-8")
 
     # while poblacion.iloc[i].astype(str).str.startswith("AREA") == False:
@@ -190,6 +237,10 @@ def tabla_departamentos():
     # filtrados_df = pd.DataFrame(filtrados)
     # filtrados_df.to_csv(departamentos, index=False, encoding="utf-8")
 
+
+tabla_relaciones_EE()
+tabla_relaciones_BP()
+tabla_departamentos()
 
 # def analizarNumeros ():
 #     validos = 0
@@ -286,11 +337,11 @@ SELECT
     deptos.nombre AS Departamento,
     COUNT(DISTINCT ee.id_establecimiento) AS Cant_EE,
     COUNT(DISTINCT bp.id_biblioteca) AS Cant_BP,
-    (deptos."poblacion jardin" + deptos."poblacion primario" + deptos."poblacion secundario") AS Población
+    deptos."total poblacion" AS Población,
 FROM deptos
 LEFT OUTER JOIN ee ON deptos.id_departamento = ee.id_departamento
 LEFT OUTER JOIN bp ON deptos.id_departamento = bp.nombre
-GROUP BY deptos.provincia, deptos.nombre, deptos."poblacion jardin", deptos."poblacion primario", deptos."poblacion secundario"
+GROUP BY deptos.provincia, deptos.nombre, deptos."poblacion jardin", deptos."poblacion primario", deptos."poblacion secundario", deptos."total poblacion"
 ORDER BY Cant_EE DESC, Cant_BP DESC, Provincia ASC, Departamento ASC
 """
 ).df()
@@ -458,3 +509,4 @@ def grafico_IV():
 
 
 # grafico_I()
+grafico_III()
