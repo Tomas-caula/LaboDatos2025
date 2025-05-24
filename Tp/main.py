@@ -10,7 +10,7 @@ establecimientos = pd.read_csv(
 )
 bibliotecas = pd.read_csv(basePath + "/bibliotecas.csv")
 
-
+# Este diccionario fue creado para vincular codigos de areas equivalentes.
 diccionario_caba = {
     "02007": "02101",
     "02014": "02102",
@@ -29,7 +29,8 @@ diccionario_caba = {
     "02105": "02105",
 }
 
-
+# la variable codigo_postales reprensenta en orden los codigos de area de todas aquellas bibliotecas ubicadas en capital feder
+# en los datos crudos no hay separecion por comuna.
 codigos_postales = [
     "02103",
     "02106",
@@ -80,21 +81,34 @@ codigos_postales = [
 def tabla_relaciones_EE():
     establecimientosEducativosComunes = "EEcomunes.csv"
     filtrados = []
-    filtrados.append(establecimientos.iloc[4, [4, 9, 17, 18, 19]])
+    filtrados.append(establecimientos.iloc[4, [4, 8, 17, 18, 19]])
     for i in range(5, len(establecimientos)):
         if establecimientos.iloc[i, 13] == "1":
-            filtrados.append(establecimientos.iloc[i, [4, 9, 17, 18, 19]])
+            filtrados.append(establecimientos.iloc[i, [4, 8, 17, 18, 19]])
     filtrados_df = pd.DataFrame(filtrados)
+
+    # creamos un dataFrame limpio sacando todas las cosas filas, columnas o textos inecesarios
     columnas = {
         filtrados_df.columns[0]: "id_departamento",
-        # filtrados_df.columns[1]: "nombre",
-        filtrados_df.columns[1]: "domicilio",
+        filtrados_df.columns[1]: "nombre",
         filtrados_df.columns[2]: "jardin_infantes",
         filtrados_df.columns[3]: "primario",
         filtrados_df.columns[4]: "secundario",
     }
+
     filtrados_df = filtrados_df.rename(columns=columnas)
+
+    # Renombramos las columnas correctamente
+
     filtrados_df = filtrados_df[filtrados_df["secundario"] != "Secundario"]
+
+    # eliminamos aquella fila donde el secundario sea Secundario para ahora si tenerla lo mas limpia posible
+    filtrados_df = filtrados_df.drop_duplicates(subset="nombre")
+    filtrados_df = filtrados_df.drop(columns="nombre")
+
+    # evitamos que en la columna de nombre haya repetidos. Esto lo hacemos porque nos dimos cuenta que cada entrada de colegio esta anotada implicando asi
+    # que colegios como el San Cayetano, Instituto San Roman, Ort, etc esten anotados multiples veces porque tiene mas de una puerta
+
     # filtrados_df.loc[
     #     filtrados_df["id_departamento"].isin(diccionario_caba.values()),
     #     "id_departamento",
@@ -106,8 +120,11 @@ def tabla_relaciones_EE():
         index_label="id_establecimiento",
     )
 
+    # guardamos todo dentro de un archivo csv con el nombre EEcomunes
+
 
 def tabla_relaciones_BP():
+    # Eliminamos todo lo no necesario de los datos en crudo y renombramos las columnas para que este todo mas limpio y ordenado ->
     bibliotecasPopulares = "BP.csv"
     filtrados = []
     for i in range(1, len(bibliotecas)):
@@ -127,8 +144,13 @@ def tabla_relaciones_BP():
     }
     filtrados_df = filtrados_df.rename(columns=columnas)
 
+    # <- Eliminamos todo lo no necesario de los datos en crudo y renombramos las columnas para que este todo mas limpio y ordenado
+
+    # Encontramos que las bibiliotecas populares tienen asignado el codigo de capital federal como si fuesen todos los mismo, sin separar por comuna ->
     for index in range(len(codigos_postales)):
         filtrados_df.loc[649 + index, filtrados_df.columns[0]] = codigos_postales[index]
+
+    # <-Encontramos
 
     filtrados_df.to_csv(
         bibliotecasPopulares, encoding="utf-8", index=True, index_label="id_biblioteca"
