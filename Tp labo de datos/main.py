@@ -79,7 +79,7 @@ codigos_postales = [
 
 
 def tabla_relaciones_EE():
-    establecimientosEducativosComunes = "EEcomunes.csv"
+    establecimientosEducativosComunes = "E.csv"
     filtrados = []
     filtrados.append(establecimientos.iloc[4, [4, 8, 17, 18, 19]])
     for i in range(5, len(establecimientos)):
@@ -116,12 +116,13 @@ def tabla_relaciones_EE():
         index_label="id_establecimiento",
     )
 
-    # guardamos todo dentro de un archivo csv con el nombre EEcomunes
+    # guardamos todo dentro de un archivo csv con el nombre E
 
+#Creamos los dataframe propuestos en el modelo relacional del informe
 
-def tabla_relaciones_BP():
+def tabla_relaciones_Biblioteca_Popular():
     # Eliminamos todo lo no necesario de los datos en crudo y renombramos las columnas para que este todo mas limpio y ordenado ->
-    bibliotecasPopulares = "BP.csv"
+    bibliotecasPopulares = "Biblioteca_Popular.csv"
     filtrados = []
     for i in range(1, len(bibliotecas)):
         fila = bibliotecas.iloc[i]
@@ -154,6 +155,7 @@ def tabla_relaciones_BP():
     # Lo guardamos en el csv
 
 
+
 def obtener_provincia(codigo):
     localEstablecimiento = establecimientos.iloc[5:, 0:5].dropna(thresh=1)
     columnas = {
@@ -179,9 +181,9 @@ def obtener_provincia(codigo):
         return "desconocida"
 
 
-def tabla_departamentos():
+def tabla_Departamentos():
     poblacion = pd.read_csv(basePath + "/poblacion.csv")
-    departamentos = "departamentos.csv"
+    Departamentos = "Departamentos.csv"
     col_dep = [
         "id_departamento",
         "nombre",
@@ -190,7 +192,7 @@ def tabla_departamentos():
         "poblacion secundario",
         "total poblacion",
     ]
-    df_departamentos = pd.DataFrame(columns=col_dep)
+    df_Departamentos = pd.DataFrame(columns=col_dep)
     poblacion = poblacion.iloc[12:, 1:3].dropna(thresh=1)
     columnas = ["edad", "casos"]
     poblacion = poblacion.rename(columns=lambda c: columnas[int(c.split(" ")[1]) - 1])
@@ -206,7 +208,7 @@ def tabla_departamentos():
     total_poblacion = 0
     while index < len(poblacion):
         if "#" in poblacion["edad"][index]:
-            df_departamentos.loc[len(df_departamentos)] = [
+            df_Departamentos.loc[len(df_Departamentos)] = [
                 area,
                 nombre,
                 cuenta_jardin,
@@ -236,20 +238,20 @@ def tabla_departamentos():
             valor = str(poblacion["casos"][index]).replace(" ", "").strip()
             total_poblacion += int(valor)
         index += 1
-    df_departamentos["provincia"] = df_departamentos["id_departamento"].apply(
+    df_Departamentos["provincia"] = df_Departamentos["id_departamento"].apply(
         obtener_provincia
     )
-    df_departamentos["id_departamento"] = df_departamentos["id_departamento"].replace(
+    df_Departamentos["id_departamento"] = df_Departamentos["id_departamento"].replace(
         diccionario_caba
     )
-    # df_departamentos = unir_comunas(df_departamentos) Antes pensabamos que era una buena unir todo el departamento de caba, claramente mala idea
-    df_departamentos.to_csv(departamentos, index=False, encoding="utf-8")
+    # df_Departamentos = unir_comunas(df_Departamentos) Antes pensabamos que era una buena unir todo el departamento de caba, claramente mala idea
+    df_Departamentos.to_csv(Departamentos, index=False, encoding="utf-8")
 
 tabla_relaciones_EE()
-tabla_relaciones_BP()
-tabla_departamentos()
+tabla_relaciones_Biblioteca_Popular()
+tabla_Departamentos()
 
-
+#Metricas que usamos para analizar la calidad de los datos
 
 def analizarMail():
     df = bibliotecas["mail"]
@@ -259,7 +261,7 @@ def analizarMail():
 
 
 def analizarBibliotecas():
-    df = pd.read_csv("BP.csv")
+    df = pd.read_csv(basePath + "Biblioteca_Popular.csv")
     df = df[df["fecha_fundacion"].isna()]
     # print("Bibliotecas sin fecha de fundacion", df)
     print("cantidad de biblitecas sin fecha: ", len(df))
@@ -268,7 +270,7 @@ def analizarBibliotecas():
 
 
 def analizarEstablecimientos():
-    df = pd.read_csv("EEcomunes.csv")
+    df = pd.read_csv("E.csv")
     # Agarramos los Establecimientos ya filtrados por la funcion tabla_relaciones_EE()
     df = df[
         df["jardin_infantes"].isna() & df["primario"].isna() & df["secundario"].isna()
@@ -280,16 +282,16 @@ def analizarEstablecimientos():
     # Anilizamos todos los establecimientos educativos que no tienen ni primario ni secondario ni primario.
 
 
-analizarEstablecimientos()
-analizarBibliotecas()
+#analizarEstablecimientos()
+#analizarBibliotecas()
 
 
 # hacer una tabla provincia departameento cantidad de jardines, poblacion de edad de jardin, primaria
 # Registrar el DataFrame como tabla en DuckDB
 # Leer los archivos
-ee = pd.read_csv("EEcomunes.csv")
-deptos = pd.read_csv("departamentos.csv")
-bp = pd.read_csv("BP.csv")
+ee = pd.read_csv("E.csv")
+deptos = pd.read_csv("Departamentos.csv")
+Biblioteca_Popular = pd.read_csv("Biblioteca_Popular.csv")
 #Consulta 1
 # Unimos las tablas de Departamentos y Establecimientos Educativos según el id_departamento
 # Las reagrupamos por departamento y provincia para que luego en la seleccion de los datos podamos contar la cantidad de jardines, primarias y secundarias
@@ -324,11 +326,11 @@ consultaii = duckdb.query(
 SELECT
     deptos.provincia AS Provincia,
     deptos.nombre AS Departamento,
-    COUNT(CASE WHEN bp.fecha_fundacion >= '1950-01-01' THEN 1 END) AS "Cantidad de BP fundadas desde 1950"
+    COUNT(CASE WHEN Biblioteca_Popular.fecha_fundacion >= '1950-01-01' THEN 1 END) AS "Cantidad de Biblioteca_Popular fundadas desde 1950"
 FROM deptos
-LEFT OUTER JOIN bp ON deptos.id_departamento = bp.nombre
+LEFT OUTER JOIN Biblioteca_Popular ON deptos.id_departamento = Biblioteca_Popular.nombre
 GROUP BY deptos.provincia, deptos.nombre
-ORDER BY deptos.provincia ASC, "Cantidad de BP fundadas desde 1950" DESC
+ORDER BY deptos.provincia ASC, "Cantidad de Biblioteca_Popular fundadas desde 1950" DESC
 """
 ).df()
 
@@ -339,20 +341,20 @@ consultaii.to_csv("consulta2.csv", encoding="utf-8", index=False)
 # Unimos las tablas de Departamentos, Establecimientos Educativos y Bibliotecas Populares según el id_departamento
 # Las reagrupamos por departamento y provincia para que luego en la seleccion de los datos podamos contar la cantidad de bibliotecas y establecimientos educativos por departamento
 # Seleccionamos las tablas necesarias para la consulta
-# Ordenamos por cantidad por cantidad EE descendente, cantidad BP descendente, nombre de provincia ascendente y nombre de departamento ascendente
+# Ordenamos por cantidad por cantidad EE descendente, cantidad Biblioteca_Popular descendente, nombre de provincia ascendente y nombre de departamento ascendente
 consultaiii = duckdb.query(
     """
 SELECT
     deptos.provincia AS Provincia,
     deptos.nombre AS Departamento,
     COUNT(DISTINCT ee.id_establecimiento) AS Cant_EE,
-    COUNT(DISTINCT bp.id_biblioteca) AS Cant_BP,
+    COUNT(DISTINCT Biblioteca_Popular.id_biblioteca) AS Cant_Biblioteca_Popular,
     deptos."total poblacion" AS Población,
 FROM deptos
 LEFT OUTER JOIN ee ON deptos.id_departamento = ee.id_departamento
-LEFT OUTER JOIN bp ON deptos.id_departamento = bp.nombre
+LEFT OUTER JOIN Biblioteca_Popular ON deptos.id_departamento = Biblioteca_Popular.nombre
 GROUP BY deptos.provincia, deptos.nombre, deptos."poblacion jardin", deptos."poblacion primario", deptos."poblacion secundario", deptos."total poblacion"
-ORDER BY Cant_EE DESC, Cant_BP DESC, Provincia ASC, Departamento ASC
+ORDER BY Cant_EE DESC, Cant_Biblioteca_Popular DESC, Provincia ASC, Departamento ASC
 """
 ).df()
 
@@ -374,12 +376,12 @@ FROM (
         deptos.provincia AS Provincia,
         deptos.nombre AS Departamento,
         deptos.id_departamento AS ID_depto,
-        bp.mail AS Dominio,
+        Biblioteca_Popular.mail AS Dominio,
         COUNT(*) AS Cantidad
-    FROM bp
-    LEFT OUTER JOIN deptos ON deptos.id_departamento = bp.nombre
-    WHERE bp.mail IS NOT NULL AND bp.mail <> ''
-    GROUP BY deptos.provincia, deptos.nombre, deptos.id_departamento, bp.mail
+    FROM Biblioteca_Popular
+    LEFT OUTER JOIN deptos ON deptos.id_departamento = Biblioteca_Popular.nombre
+    WHERE Biblioteca_Popular.mail IS NOT NULL AND Biblioteca_Popular.mail <> ''
+    GROUP BY deptos.provincia, deptos.nombre, deptos.id_departamento, Biblioteca_Popular.mail
 ) Cantidad_por_dominio
 INNER JOIN (
     SELECT
@@ -387,12 +389,12 @@ INNER JOIN (
         MAX(Cantidad) AS max_cantidad
     FROM (
         SELECT
-            bp.nombre AS ID_depto,
-            bp.mail AS Dominio,
+            Biblioteca_Popular.nombre AS ID_depto,
+            Biblioteca_Popular.mail AS Dominio,
             COUNT(*) AS Cantidad
-        FROM bp
-        WHERE bp.mail IS NOT NULL AND bp.mail <> ''
-        GROUP BY bp.nombre, bp.mail
+        FROM Biblioteca_Popular
+        WHERE Biblioteca_Popular.mail IS NOT NULL AND Biblioteca_Popular.mail <> ''
+        GROUP BY Biblioteca_Popular.nombre, Biblioteca_Popular.mail
     ) Dominios
     GROUP BY ID_depto
 ) Dominio_maximo
@@ -405,36 +407,36 @@ consultaiv.to_csv(consulta4, encoding="utf-8", index=False)
 
 
 def grafico_I():
-    bp_segun_provincia = {}
-    deptos = pd.read_csv("departamentos.csv", dtype={"id_departamento": str})
-    # Leemos la tabla de departamentos creada y filtrado por la funcion tablaDepartamentos() previamente y establecemos la columna id_departamento como strin
-    for i in range(len(bp)):
-        id_dep = str(bp.nombre[i])
+    Biblioteca_Popular_segun_provincia = {}
+    deptos = pd.read_csv("Departamentos.csv", dtype={"id_departamento": str})
+    # Leemos la tabla de Departamentos creada y filtrado por la funcion tablaDepartamentos() previamente y establecemos la columna id_departamento como strin
+    for i in range(len(Biblioteca_Popular)):
+        id_dep = str(Biblioteca_Popular.nombre[i])
         filtro = deptos[deptos["id_departamento"] == id_dep]
         if not filtro.empty:
             provincia = filtro["provincia"].values[0]
-            if provincia in bp_segun_provincia:
-                bp_segun_provincia[provincia] += 1
+            if provincia in Biblioteca_Popular_segun_provincia:
+                Biblioteca_Popular_segun_provincia[provincia] += 1
             else:
-                bp_segun_provincia[provincia] = 1
+                Biblioteca_Popular_segun_provincia[provincia] = 1
         otroFiltro = deptos[deptos["id_departamento"] == "0" + id_dep]
         if not otroFiltro.empty:
             provincia = otroFiltro["provincia"].values[0]
-            if provincia in bp_segun_provincia:
-                bp_segun_provincia[provincia] += 1
+            if provincia in Biblioteca_Popular_segun_provincia:
+                Biblioteca_Popular_segun_provincia[provincia] += 1
             else:
-                bp_segun_provincia[provincia] = 1
-    # NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA NO APARECEN DE CABA
+                Biblioteca_Popular_segun_provincia[provincia] = 1
+    
 
-    bp_segun_provincia = sorted(
-        bp_segun_provincia.items(), key=lambda x: x[1], reverse=True
+    Biblioteca_Popular_segun_provincia = sorted(
+        Biblioteca_Popular_segun_provincia.items(), key=lambda x: x[1], reverse=True
     )
 
     fig, ax = plt.subplots()
     ax.bar(
-        data=bp_segun_provincia,
-        x=[x[0] for x in bp_segun_provincia],
-        height=[x[1] for x in bp_segun_provincia],
+        data=Biblioteca_Popular_segun_provincia,
+        x=[x[0] for x in Biblioteca_Popular_segun_provincia],
+        height=[x[1] for x in Biblioteca_Popular_segun_provincia],
     )
     ax.set_xlabel("Provincias")
     ax.set_ylabel("Cantidad de Bibliotecas Populares")
@@ -490,12 +492,12 @@ def grafico_III():
 
 def grafico_IV():
     df = pd.read_csv("consulta3.csv")
-    df["BP_por_mil"] = (df["Cant_BP"] / df["Población"]) * 1000
+    df["Biblioteca_Popular_por_mil"] = (df["Cant_Biblioteca_Popular"] / df["Población"]) * 1000
     df["EE_por_mil"] = (df["Cant_EE"] / df["Población"]) * 1000
-    # Aarramos y creamos las columnas de BP_por_mil y EE_por_mil teniendo por cada mil habitantes
+    # Aarramos y creamos las columnas de Biblioteca_Popular_por_mil y EE_por_mil teniendo por cada mil habitantes
     sns.scatterplot(
         data=df,
-        x="BP_por_mil",
+        x="Biblioteca_Popular_por_mil",
         y="EE_por_mil",
         hue="Provincia",
     )
@@ -503,8 +505,8 @@ def grafico_IV():
     # Colocamos los puntos en un scatterplot teniendo en el eje x las Bibliotecas polulas y los Establecimientos en el eje Y. Separamos por provincias tambien
 
     # Etiquetas y título
-    plt.title("Relación entre BP y EE por cada mil habitantes (por departamento)")
-    plt.xlabel("BP por mil habitantes")
+    plt.title("Relación entre Biblioteca_Popular y EE por cada mil habitantes (por departamento)")
+    plt.xlabel("Biblioteca_Popular por mil habitantes")
     plt.ylabel("EE por mil habitantes")
     # Le ponemos un titulo al grafico y el nombre de los ejes
     plt.show()
