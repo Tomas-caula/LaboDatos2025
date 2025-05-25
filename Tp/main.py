@@ -288,6 +288,27 @@ def analizarMail():
     print("mails", df.count())
 
 
+def analizarBibliotecas():
+    df = pd.read_csv("BP.csv")
+    df = df[df["fecha_fundacion"].isna()]
+    # print("Bibliotecas sin fecha de fundacion", df)
+    print("cantidad de biblitecas sin fecha: ", len(df))
+
+
+def analizarEstablecimientos():
+    df = pd.read_csv("EEcomunes.csv")
+    df = df[
+        df["jardin_infantes"].isna() & df["primario"].isna() & df["secundario"].isna()
+    ]
+
+    print("Escuelas sin jardin, primario ni secundario", len(df))
+    print("Cantidad de instituciones sin nivel:", len(df))
+
+
+analizarEstablecimientos()
+analizarBibliotecas()
+
+
 # hacer una tabla provincia departameento cantidad de jardines, poblacion de edad de jardin, primaria
 
 # print(consultaSQL.head(8))
@@ -497,15 +518,11 @@ def grafico_III():
     df = pd.read_csv("consulta1.csv")
     # nuevoDf = df.drop_duplicates(subset =["Provincia"]).reset_index(drop=True)
     df["Total_EE"] = df["Primarias"] + df["Secundarios"] + df["Jardines"]
-
+    orden_provincias = df.groupby("Provincia")["Total_EE"].median().sort_values().index
     # for i in range(len(nuevoDf)):
     #     nuevoDf.loc[i, "Total_EE"] = encontrarCantEE(df[df["Provincia"] == nuevoDf.loc[i, "Provincia"]].reset_index(drop=True))
     # print(nuevoDf)
-    sns.boxplot(
-        data=df,
-        x="Provincia",
-        y="Total_EE",
-    )
+    sns.boxplot(data=df, x="Provincia", y="Total_EE", order=orden_provincias)
     plt.title("Distribución de EE por provincia")
     plt.xticks(rotation=90)
     plt.show()
