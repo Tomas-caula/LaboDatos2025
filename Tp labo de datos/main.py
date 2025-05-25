@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import duckdb
 import seaborn as sns
 
-basePath = "./"
+basePath = "./Tablas originales/"
+pathModelos = "./Tabla modelos/"
 invalidos = []
 establecimientos = pd.read_csv(
-    basePath + "/estableciminetos.csv", encoding="latin1", low_memory=False
+    basePath + "estableciminetos.csv", encoding="latin1", low_memory=False
 )
 bibliotecas = pd.read_csv(basePath + "/bibliotecas.csv")
-
 # Este diccionario fue creado para vincular codigos de areas equivalentes.
 diccionario_caba = {
     "02007": "02101",
@@ -79,7 +79,7 @@ codigos_postales = [
 
 
 def tabla_relaciones_EE():
-    establecimientosEducativosComunes = "E.csv"
+    establecimientosEducativosComunes = pathModelos + "Establecimiento_educativo.csv"
     filtrados = []
     filtrados.append(establecimientos.iloc[4, [4, 8, 17, 18, 19]])
     for i in range(5, len(establecimientos)):
@@ -118,11 +118,13 @@ def tabla_relaciones_EE():
 
     # guardamos todo dentro de un archivo csv con el nombre E
 
-#Creamos los dataframe propuestos en el modelo relacional del informe
+
+# Creamos los dataframe propuestos en el modelo relacional del informe
+
 
 def tabla_relaciones_Biblioteca_Popular():
     # Eliminamos todo lo no necesario de los datos en crudo y renombramos las columnas para que este todo mas limpio y ordenado ->
-    bibliotecasPopulares = "Biblioteca_Popular.csv"
+    bibliotecasPopulares = pathModelos + "Biblioteca_Popular.csv"
     filtrados = []
     for i in range(1, len(bibliotecas)):
         fila = bibliotecas.iloc[i]
@@ -155,7 +157,6 @@ def tabla_relaciones_Biblioteca_Popular():
     # Lo guardamos en el csv
 
 
-
 def obtener_provincia(codigo):
     localEstablecimiento = establecimientos.iloc[5:, 0:5].dropna(thresh=1)
     columnas = {
@@ -183,7 +184,7 @@ def obtener_provincia(codigo):
 
 def tabla_Departamentos():
     poblacion = pd.read_csv(basePath + "/poblacion.csv")
-    Departamentos = "Departamentos.csv"
+    Departamentos = pathModelos + "Departamentos.csv"
     col_dep = [
         "id_departamento",
         "nombre",
@@ -247,11 +248,13 @@ def tabla_Departamentos():
     # df_Departamentos = unir_comunas(df_Departamentos) Antes pensabamos que era una buena unir todo el departamento de caba, claramente mala idea
     df_Departamentos.to_csv(Departamentos, index=False, encoding="utf-8")
 
+
 tabla_relaciones_EE()
 tabla_relaciones_Biblioteca_Popular()
 tabla_Departamentos()
 
-#Metricas que usamos para analizar la calidad de los datos
+# Metricas que usamos para analizar la calidad de los datos
+
 
 def analizarMail():
     df = bibliotecas["mail"]
@@ -270,7 +273,7 @@ def analizarBibliotecas():
 
 
 def analizarEstablecimientos():
-    df = pd.read_csv("E.csv")
+    df = pd.read_csv(pathModelos + "Establecimiento_educativo.csv")
     # Agarramos los Establecimientos ya filtrados por la funcion tabla_relaciones_EE()
     df = df[
         df["jardin_infantes"].isna() & df["primario"].isna() & df["secundario"].isna()
@@ -282,17 +285,17 @@ def analizarEstablecimientos():
     # Anilizamos todos los establecimientos educativos que no tienen ni primario ni secondario ni primario.
 
 
-#analizarEstablecimientos()
-#analizarBibliotecas()
+# analizarEstablecimientos()
+# analizarBibliotecas()
 
 
 # hacer una tabla provincia departameento cantidad de jardines, poblacion de edad de jardin, primaria
 # Registrar el DataFrame como tabla en DuckDB
 # Leer los archivos
-ee = pd.read_csv("E.csv")
-deptos = pd.read_csv("Departamentos.csv")
-Biblioteca_Popular = pd.read_csv("Biblioteca_Popular.csv")
-#Consulta 1
+ee = pd.read_csv(pathModelos + "Establecimiento_educativo.csv")
+deptos = pd.read_csv(pathModelos + "Departamentos.csv")
+Biblioteca_Popular = pd.read_csv(pathModelos + "Biblioteca_Popular.csv")
+# Consulta 1
 # Unimos las tablas de Departamentos y Establecimientos Educativos según el id_departamento
 # Las reagrupamos por departamento y provincia para que luego en la seleccion de los datos podamos contar la cantidad de jardines, primarias y secundarias
 # Seleccionamos las tablas necesarias para la consulta
@@ -408,7 +411,9 @@ consultaiv.to_csv(consulta4, encoding="utf-8", index=False)
 
 def grafico_I():
     Biblioteca_Popular_segun_provincia = {}
-    deptos = pd.read_csv("Departamentos.csv", dtype={"id_departamento": str})
+    deptos = pd.read_csv(
+        pathModelos + "Departamentos.csv", dtype={"id_departamento": str}
+    )
     # Leemos la tabla de Departamentos creada y filtrado por la funcion tablaDepartamentos() previamente y establecemos la columna id_departamento como strin
     for i in range(len(Biblioteca_Popular)):
         id_dep = str(Biblioteca_Popular.nombre[i])
@@ -426,7 +431,6 @@ def grafico_I():
                 Biblioteca_Popular_segun_provincia[provincia] += 1
             else:
                 Biblioteca_Popular_segun_provincia[provincia] = 1
-    
 
     Biblioteca_Popular_segun_provincia = sorted(
         Biblioteca_Popular_segun_provincia.items(), key=lambda x: x[1], reverse=True
@@ -475,6 +479,7 @@ def grafico_II(df):
     plt.tight_layout()
     plt.show()
 
+
 def grafico_III():
     df = pd.read_csv("consulta1.csv")
     df["Total_EE"] = df["Primarias"] + df["Secundarios"] + df["Jardines"]
@@ -492,7 +497,9 @@ def grafico_III():
 
 def grafico_IV():
     df = pd.read_csv("consulta3.csv")
-    df["Biblioteca_Popular_por_mil"] = (df["Cant_Biblioteca_Popular"] / df["Población"]) * 1000
+    df["Biblioteca_Popular_por_mil"] = (
+        df["Cant_Biblioteca_Popular"] / df["Población"]
+    ) * 1000
     df["EE_por_mil"] = (df["Cant_EE"] / df["Población"]) * 1000
     # Aarramos y creamos las columnas de Biblioteca_Popular_por_mil y EE_por_mil teniendo por cada mil habitantes
     sns.scatterplot(
@@ -505,11 +512,14 @@ def grafico_IV():
     # Colocamos los puntos en un scatterplot teniendo en el eje x las Bibliotecas polulas y los Establecimientos en el eje Y. Separamos por provincias tambien
 
     # Etiquetas y título
-    plt.title("Relación entre Biblioteca_Popular y EE por cada mil habitantes (por departamento)")
+    plt.title(
+        "Relación entre Biblioteca_Popular y EE por cada mil habitantes (por departamento)"
+    )
     plt.xlabel("Biblioteca_Popular por mil habitantes")
     plt.ylabel("EE por mil habitantes")
     # Le ponemos un titulo al grafico y el nombre de los ejes
     plt.show()
+
 
 # Mostramos todos los graficos ->
 grafico_I()
