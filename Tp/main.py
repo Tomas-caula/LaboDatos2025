@@ -109,10 +109,6 @@ def tabla_relaciones_EE():
     # evitamos que en la columna de nombre haya repetidos. Esto lo hacemos porque nos dimos cuenta que cada entrada de colegio esta anotada implicando asi
     # que colegios como el San Cayetano, Instituto San Roman, Ort, etc esten anotados multiples veces porque tiene mas de una puerta
 
-    # filtrados_df.loc[
-    #     filtrados_df["id_departamento"].isin(diccionario_caba.values()),
-    #     "id_departamento",
-    # ] = "02000"
     filtrados_df.to_csv(
         establecimientosEducativosComunes,
         encoding="utf-8",
@@ -150,12 +146,12 @@ def tabla_relaciones_BP():
     for index in range(len(codigos_postales)):
         filtrados_df.loc[649 + index, filtrados_df.columns[0]] = codigos_postales[index]
 
-    # <-Encontramos
+    # <- Encontramos que las bibiliotecas populares tienen asignado el codigo de capital federal como si fuesen todos los mismo, sin separar por comuna
 
     filtrados_df.to_csv(
         bibliotecasPopulares, encoding="utf-8", index=True, index_label="id_biblioteca"
     )
-    return filtrados_df
+    # Lo guardamos en el csv
 
 
 def obtener_provincia(codigo):
@@ -286,6 +282,7 @@ def analizarMail():
     df = bibliotecas["mail"]
     print("null mail", len(bibliotecas) - df.count())
     print("mails", df.count())
+    # Contamos cuales son todos los mailes vacios, df.count discrimina los que estan vacios.
 
 
 def analizarBibliotecas():
@@ -294,15 +291,20 @@ def analizarBibliotecas():
     # print("Bibliotecas sin fecha de fundacion", df)
     print("cantidad de biblitecas sin fecha: ", len(df))
 
+    # Analizamos todas las biblitecas con la fecha de fundacion no existente
+
 
 def analizarEstablecimientos():
     df = pd.read_csv("EEcomunes.csv")
+    # Agarramos los Establecimientos ya filtrados por la funcion tabla_relaciones_EE()
     df = df[
         df["jardin_infantes"].isna() & df["primario"].isna() & df["secundario"].isna()
     ]
 
     print("Escuelas sin jardin, primario ni secundario", len(df))
     print("Cantidad de instituciones sin nivel:", len(df))
+
+    # Anilizamos todos los establecimientos educativos que no tienen ni primario ni secondario ni primario.
 
 
 analizarEstablecimientos()
@@ -436,7 +438,7 @@ consultaiv.to_csv(consulta4, encoding="utf-8", index=False)
 def grafico_I():
     bp_segun_provincia = {}
     deptos = pd.read_csv("departamentos.csv", dtype={"id_departamento": str})
-
+    # Leemos la tabla de departamentos creada y filtrado por la funcion tablaDepartamentos() previamente y establecemos la columna id_departamento como strin
     for i in range(len(bp)):
         id_dep = str(bp.nombre[i])
         filtro = deptos[deptos["id_departamento"] == id_dep]
@@ -458,7 +460,6 @@ def grafico_I():
     bp_segun_provincia = sorted(
         bp_segun_provincia.items(), key=lambda x: x[1], reverse=True
     )
-    # print(bp_segun_provincia)
 
     fig, ax = plt.subplots()
     ax.bar(
@@ -516,15 +517,16 @@ def grafico_II(df):
 
 def grafico_III():
     df = pd.read_csv("consulta1.csv")
-    # nuevoDf = df.drop_duplicates(subset =["Provincia"]).reset_index(drop=True)
     df["Total_EE"] = df["Primarias"] + df["Secundarios"] + df["Jardines"]
     orden_provincias = df.groupby("Provincia")["Total_EE"].median().sort_values().index
-    # for i in range(len(nuevoDf)):
-    #     nuevoDf.loc[i, "Total_EE"] = encontrarCantEE(df[df["Provincia"] == nuevoDf.loc[i, "Provincia"]].reset_index(drop=True))
-    # print(nuevoDf)
+    # Establecemos un oreden de las provincias por el valor medio de los Totales
+
     sns.boxplot(data=df, x="Provincia", y="Total_EE", order=orden_provincias)
+    # Creamos el boxplot por provincia y en bace al Total de instituciones ordenado
     plt.title("Distribución de EE por provincia")
+    # Le ponemops un titulo al grafico
     plt.xticks(rotation=90)
+    # Rotamos el nombre de las provincias para que no se vea superapuesto.
     plt.show()
 
 
@@ -532,22 +534,27 @@ def grafico_IV():
     df = pd.read_csv("consulta3.csv")
     df["BP_por_mil"] = (df["Cant_BP"] / df["Población"]) * 1000
     df["EE_por_mil"] = (df["Cant_EE"] / df["Población"]) * 1000
-
+    # Aarramos y creamos las columnas de BP_por_mil y EE_por_mil teniendo por cada mil habitantes
     sns.scatterplot(
         data=df,
         x="BP_por_mil",
         y="EE_por_mil",
-        hue="Provincia",  # Opcional: colorear por provincia
+        hue="Provincia",
     )
+
+    # Colocamos los puntos en un scatterplot teniendo en el eje x las Bibliotecas polulas y los Establecimientos en el eje Y. Separamos por provincias tambien
 
     # Etiquetas y título
     plt.title("Relación entre BP y EE por cada mil habitantes (por departamento)")
     plt.xlabel("BP por mil habitantes")
     plt.ylabel("EE por mil habitantes")
+    # Le ponemos un titulo al grafico y el nombre de los ejes
     plt.show()
 
 
+# Mostramos todos los graficos ->
 grafico_I()
 grafico_II(pd.read_csv("consulta1.csv"))
 grafico_III()
 grafico_IV()
+# <- Mostramos todos los graficos
