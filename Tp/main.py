@@ -245,37 +245,10 @@ def tabla_departamentos():
     # df_departamentos = unir_comunas(df_departamentos) Antes pensabamos que era una buena unir todo el departamento de caba, claramente mala idea
     df_departamentos.to_csv(departamentos, index=False, encoding="utf-8")
 
-    # while poblacion.iloc[i].astype(str).str.startswith("AREA") == False:
-    #     tabla_por_departamento = [area, nombre, poblacion_0_6, poblacion_6_12, ppoblacion_12_18]
-    #     i += 1
-    #     tabla_por_departamento = []
-    #     if bibliotecas.iloc[i, 10] == "1":
-    #         filtrados.append(bibliotecas.iloc[i, [2, 9, 10, 15, 22]])
-    # area = poblacion.iloc[i, 2].split("       ")[2]
-    # filtrados_df = pd.DataFrame(filtrados)
-    # filtrados_df.to_csv(departamentos, index=False, encoding="utf-8")
-
-
 tabla_relaciones_EE()
 tabla_relaciones_BP()
 tabla_departamentos()
 
-# def analizarNumeros ():
-#     validos = 0
-#     index = 5
-#     while(index < 64716):
-#         j = 0
-#         cond = False
-#         while(j <= 2 ):
-#             condicion = establecimientos.iloc[index, 13 + j]
-#             j+= 1
-#             if(condicion == "1"):
-#                 cond = True
-#         if cond:
-#             validos += 1
-#         cond = False
-#         index += 1
-#     print(validos)
 
 
 def analizarMail():
@@ -312,35 +285,18 @@ analizarBibliotecas()
 
 
 # hacer una tabla provincia departameento cantidad de jardines, poblacion de edad de jardin, primaria
-
-# print(consultaSQL.head(8))
-# print(consultaSQL)
-
-# dataframeResultado = sql^ consultaSQL
-
-# print(dataframeResultado)
-
-# tabla_relaciones_EE()
-# tabla_relaciones_BP()
-# tabla_departamentos()
-
-# Leer el archivo BP.csv
-bp = pd.read_csv("BP.csv")
-
 # Registrar el DataFrame como tabla en DuckDB
 # Leer los archivos
 ee = pd.read_csv("EEcomunes.csv")
 deptos = pd.read_csv("departamentos.csv")
-
-# # Conectar y registrar las tablas
-# con = duckdb.connect()
-# con.register("bp", bp)
-# con.register("ee", ee)
-# con.register("deptos", deptos)
-
+bp = pd.read_csv("BP.csv")
+#Consulta 1
+# Unimos las tablas de Departamentos y Establecimientos Educativos según el id_departamento
+# Las reagrupamos por departamento y provincia para que luego en la seleccion de los datos podamos contar la cantidad de jardines, primarias y secundarias
+# Seleccionamos las tablas necesarias para la consulta
 consultai = duckdb.query(
     """
-SELECT
+SELECT         
     deptos.provincia AS Provincia,
     deptos.nombre AS Departamento,
     COUNT(CASE WHEN ee.jardin_infantes = '1' THEN 1 END) AS Jardines,
@@ -356,9 +312,13 @@ ORDER BY deptos.provincia ASC, Primarias DESC
 """
 ).df()
 
+
 consulta1 = "consulta1.csv"
 consultai.to_csv(consulta1, encoding="utf-8", index=False)
-
+# Consulta 2
+# Unimos las tablas de Departamentos y Bibliotecas Populares según el id_departamento
+# Las reagrupamos por departamento y provincia para que luego en la seleccion de los datos podamos contar la cantidad de bibliotecas fundadas desde 1950 por departamento
+# Seleccionamos las tablas necesarias para la consulta
 consultaii = duckdb.query(
     """
 SELECT
@@ -375,6 +335,11 @@ ORDER BY deptos.provincia ASC, "Cantidad de BP fundadas desde 1950" DESC
 consulta2 = "consulta2.csv"
 consultaii.to_csv("consulta2.csv", encoding="utf-8", index=False)
 
+# Consulta 3
+# Unimos las tablas de Departamentos, Establecimientos Educativos y Bibliotecas Populares según el id_departamento
+# Las reagrupamos por departamento y provincia para que luego en la seleccion de los datos podamos contar la cantidad de bibliotecas y establecimientos educativos por departamento
+# Seleccionamos las tablas necesarias para la consulta
+# Ordenamos por cantidad por cantidad EE descendente, cantidad BP descendente, nombre de provincia ascendente y nombre de departamento ascendente
 consultaiii = duckdb.query(
     """
 SELECT
@@ -394,6 +359,10 @@ ORDER BY Cant_EE DESC, Cant_BP DESC, Provincia ASC, Departamento ASC
 consulta3 = "consulta3.csv"
 consultaiii.to_csv(consulta3, encoding="utf-8", index=False)
 
+# Consulta 4
+# Creamos una tabla que nos permita ver los cantidad de veces que aparece cada dominio por departamento
+# Creamos una tabla que indica las veces que aparece el dominio mas frecuente por departamento a partir de crear de vuelta la tabla anterior
+# Unimos ambas tablas por la cantidad de veces que aparece el domino y seleccionamos las columnas necesarias
 consultaiv = duckdb.query(
     """
 SELECT
@@ -504,17 +473,6 @@ def grafico_II(df):
     plt.tight_layout()
     plt.show()
 
-
-# graficar_puntos_nivel(pd.read_csv("consulta1.csv"))
-
-
-# def encontrarCantEE(df):
-#     cuenta = 0
-#     for i in range(len(df)):
-#         cuenta += int(df.loc[i,"Total_EE"])
-#     return cuenta
-
-
 def grafico_III():
     df = pd.read_csv("consulta1.csv")
     df["Total_EE"] = df["Primarias"] + df["Secundarios"] + df["Jardines"]
@@ -550,7 +508,6 @@ def grafico_IV():
     plt.ylabel("EE por mil habitantes")
     # Le ponemos un titulo al grafico y el nombre de los ejes
     plt.show()
-
 
 # Mostramos todos los graficos ->
 grafico_I()
