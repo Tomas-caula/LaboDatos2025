@@ -94,3 +94,162 @@ plt.title("Distancia Euclidiana entre imágenes promedio de cada clase")
 plt.xlabel("Clase")
 plt.ylabel("Clase")
 plt.show()
+
+
+#Ejercicio 2 
+# %%
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+
+# Cargar el dataset
+data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
+
+# Crear subconjunto con solo las clases 0 y 8
+data_df_0_8 = data_df[data_df['label'].isin([0, 8])]
+
+# Análisis del balance de clases
+
+    #conteo_clases = data_df_0_8['label'].value_counts()
+    #print(conteo_clases)
+
+    #porcentaje_clases = (conteo_clases / len(data_df_0_8)) * 100
+    #print(porcentaje_clases)
+
+#Aca pudiomos observar que las clases estan balanceadas, por lo que no es necesario balancearlas
+
+
+# Visualizar el balance de clases
+    #plt.figure()
+    #sns.countplot(data=data_df_0_8, x='label')
+    #plt.title('Distribución de clases 0 y 8')
+    #plt.xlabel('Clase')
+    #plt.ylabel('Cantidad de imágenes')
+#plt.show()
+
+# Separar características (X) y etiquetas (y)
+X = data_df_0_8.drop('label', axis=1)
+y = data_df_0_8['label']
+
+# Crear conjunto de entrenamiento (70%) y prueba (30%)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1, stratify=y)
+
+# Función para evaluar diferentes subconjuntos de atributos
+def evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos, k=3):
+    resultados = {}
+    
+    for nombre, indices in subconjuntos.items():
+        # Seleccionar subconjunto de atributos
+        X_train_subset = X_train.iloc[:, indices]
+        X_test_subset = X_test.iloc[:, indices]
+        
+        # Entrenar modelo kNN
+        knn = KNeighborsClassifier(n_neighbors=k)
+        knn.fit(X_train_subset, y_train)
+        
+        # Evaluar modelo
+        y_pred = knn.predict(X_test_subset)
+        accuracy = metrics.accuracy_score(y_test, y_pred)
+        
+        resultados[nombre] = accuracy
+    
+    return resultados
+
+# Definimos todos los subconjuntos de atributos que vamos a usar -> 
+subconjuntos_3_atributos = {
+    'Subconjunto 1': [0, 1, 2],  # Primeros 3 píxeles
+    'Subconjunto 2': [200, 300, 400],  # Píxeles del medio
+    'Subconjunto 3': [781, 782, 783],  # Últimos 3 píxeles
+}
+
+subconjuntos_5_atributos = {
+    'Subconjunto 1': [0, 1, 2, 3, 4],
+    'Subconjunto 2': [100, 200, 300, 400, 500],
+    'Subconjunto 3': [779, 780, 781, 782, 783],
+}
+
+# <- Definimos todos los subconjuntos de atributos que vamos a usar
+
+# Evaluar subconjuntos de 3 atributos
+resultados_3 = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_3_atributos)
+print("\nResultados para subconjuntos de 3 atributos:")
+for nombre, accuracy in resultados_3.items():
+    print(f"{nombre}: {accuracy:.4f}")
+
+# Evaluar subconjuntos de 5 atributos
+resultados_5 = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_5_atributos)
+print("\nResultados para subconjuntos de 5 atributos:")
+for nombre, accuracy in resultados_5.items():
+    print(f"{nombre}: {accuracy:.4f}")
+
+# Visualizar resultados
+plt.figure(figsize=(12, 6))
+
+# Gráfico para 3 atributos
+plt.subplot(1, 2, 1)
+plt.bar(resultados_3.keys(), resultados_3.values())
+plt.title('Precisión con 3 atributos')
+plt.xticks(rotation=45)
+plt.ylabel('Precisión')
+
+# Gráfico para 5 atributos
+plt.subplot(1, 2, 2)
+plt.bar(resultados_5.keys(), resultados_5.values())
+plt.title('Precisión con 5 atributos')
+plt.xticks(rotation=45)
+plt.ylabel('Precisión')
+
+
+
+#Probando con k diferentes
+
+const_k = [1, 3, 5, 7, 9]
+# Almacenar resultados para graficar
+resultados_3_atributos = {k: {} for k in const_k}
+resultados_5_atributos = {k: {} for k in const_k}
+
+# Evaluar y almacenar resultados para 3 atributos
+for k in const_k:
+    resultados_k = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_3_atributos, k)
+    resultados_3_atributos[k] = resultados_k
+
+# Evaluar y almacenar resultados para 5 atributos
+for k in const_k:
+    resultados_k = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_5_atributos, k)
+    resultados_5_atributos[k] = resultados_k
+
+# Crear gráfico
+plt.figure(figsize=(15, 6))
+
+# Gráfico para 3 atributos
+plt.subplot(1, 2, 1)
+for subconjunto in subconjuntos_3_atributos.keys():
+    valores = [resultados_3_atributos[k][subconjunto] for k in const_k]
+    plt.plot(const_k, valores, marker='o', label=subconjunto)
+plt.title('Precisión vs k para 3 atributos')
+plt.xlabel('Valor de k')
+plt.ylabel('Precisión')
+plt.legend()
+plt.grid(True)
+
+
+# Gráfico para 5 atributos
+plt.subplot(1, 2, 2)
+for subconjunto in subconjuntos_5_atributos.keys():
+    valores = [resultados_5_atributos[k][subconjunto] for k in const_k]
+    plt.plot(const_k, valores, marker='o', label=subconjunto)
+plt.title('Precisión vs k para 5 atributos')
+plt.xlabel('Valor de k')
+plt.ylabel('Precisión')
+plt.legend()
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+#Caso pruebo con todos los atributos con k= 3
+
+
+# %%
