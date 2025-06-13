@@ -5,6 +5,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split, GridSearchCV, KFold
+from sklearn.metrics import accuracy_score
 
 # 1 - Analisis Exploratorio del Dataset
 data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
@@ -107,7 +110,7 @@ from sklearn.model_selection import train_test_split
 # Cargar el dataset
 data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
 
-# Crear subconjunto con solo las clases 0 y 8
+# Crear subconjunto with solo las clases 0 y 8
 data_df_0_8 = data_df[data_df['label'].isin([0, 8])]
 
 # Análisis del balance de clases
@@ -252,4 +255,162 @@ plt.show()
 #Caso pruebo con todos los atributos con k= 3
 
 
+# %%
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split, GridSearchCV, KFold, StratifiedKFold # Importar StratifiedKFold
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# --- Paso 0: Cargar y preparar el dataset ---
+
+# Cargar el dataset completo (todas las clases de Fashion-MNIST)
+# Asegúrate de que el archivo 'Fashion-MNIST.csv' esté en el mismo directorio que tu script.
+try:
+    data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
+except FileNotFoundError:
+    print("Error: 'Fashion-MNIST.csv' no encontrado. Asegúrate de que el archivo esté en el directorio correcto.")
+    exit() # Sale del script si el archivo no se encuentra
+
+# Separar características (X) y etiquetas (y)
+# Normalizar los valores de los píxeles de 0-255 a 0-1.0 para mejorar el rendimiento del modelo.
+X = data_df.drop('label', axis=1) / 255.0
+y = data_df['label'].astype(int) # Asegurar que las etiquetas sean enteros
+
+# Definir los nombres de las clases para una mejor interpretación de los resultados
+# ¡IMPORTANTE! Revisa la documentación de Fashion-MNIST para confirmar estos nombres si es necesario.
+class_names = [
+    "T-shirt/top",  # Clase 0
+    "Trouser",      # Clase 1
+    "Pullover",     # Clase 2
+    "Dress",        # Clase 3
+    "Coat",         # Clase 4
+    "Sandal",       # Clase 5
+    "Shirt",        # Clase 6
+    "Sneaker",      # Clase 7
+    "Bag",          # Clase 8
+    "Ankle boot"    # Clase 9
+]
+
+# --- Paso 1: División en conjunto de desarrollo y held-out ---
+
+# Dividir los datos en un conjunto de desarrollo (para entrenamiento y validación cruzada)
+# y un conjunto held-out (para evaluación final imparcial).
+# test_size=0.2 significa que el 20% de los datos se usará para held-out, 80% para desarrollo.
+# random_state asegura que la división sea reproducible.
+# stratify=y asegura que la proporción de clases sea la misma en ambos conjuntos (muestreo estratificado).
+X_dev, X_heldout, y_dev, y_heldout = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+print(f"Tamaño del conjunto de desarrollo: {X_dev.shape[0]} muestras")
+print(f"Tamaño del conjunto held-out: {X_heldout.shape[0]} muestras")
+
+# --- Paso 2: Selección de hiperparámetro max_depth usando validación cruzada ---
+
+# Definir la cuadrícula de hiperparámetros a probar para 'max_depth'.
+# Se probarán valores de 1 a 10 para la profundidad máxima del árbol.
+param_grid = {'max_depth': range(1, 11)}
+
+# Configurar la validación cruzada Estratificada K-Fold.
+# n_splits=5 significa que los datos de desarrollo se dividirán en 5 'folds'.
+# shuffle=True aleatoriza los datos antes de dividirlos en folds.
+# random_state asegura que los folds sean los mismos cada vez que ejecutes el código.
+# StratifiedKFold asegura que la proporción de clases sea la misma en cada fold.
+# El enunciado no pide que sea estratificado pero por las dudas y para un mejor rendimiento se estratifica
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+# Inicializar el modelo DecisionTreeClassifier.
+# random_state también para la reproducibilidad de la construcción del árbol.
+dt = DecisionTreeClassifier(random_state=42)
+
+# Configurar GridSearchCV para realizar la búsqueda del mejor hiperparámetro.
+# dt: el modelo a optimizar.
+# param_grid: los hiperparámetros y sus valores a probar.
+# cv: la estrategia de validación cruzada.
+# scoring='accuracy': la métrica utilizada para evaluar cada combinación de hiperparámetros.
+# n_jobs=-1: usa todos los núcleos de la CPU para acelerar el proceso.
+grid_search = GridSearchCV(dt, param_grid, cv=cv, scoring='accuracy', n_jobs=-1)
+
+# Entrenar GridSearchCV en el conjunto de desarrollo.
+# Esto realizará la validación cruzada internamente para cada max_depth.
+grid_search.fit(X_dev, y_dev)
+
+# Imprimir los resultados del mejor hiperparámetro encontrado
+print("\n--- Resultados de la Selección de Hiperparámetros ---")
+print("Mejor max_depth:", grid_search.best_params_['max_depth'])
+print(f"Mejor exactitud promedio (validación cruzada): {grid_search.best_score_:.4f}")
+
+# Visualizar la exactitud promedio de la validación cruzada para cada max_depth
+results = pd.DataFrame(grid_search.cv_results_)
+plt.figure(figsize=(10, 6))
+plt.plot(results['param_max_depth'], results['mean_test_score'], marker='o', linestyle='-')
+plt.title('Exactitud Promedio de Validación Cruzada vs. Max Depth', fontsize=16)
+plt.xlabel('Max Depth (Profundidad Máxima del Árbol)', fontsize=12)
+plt.ylabel('Exactitud Promedio (Validación Cruzada)', fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.xticks(range(1, 11)) # Asegura que todos los valores de 1 a 10 estén en el eje X
+plt.tight_layout()
+plt.show()
+
+# --- Paso 3: Entrenar el modelo final con el mejor max_depth en todo el conjunto de desarrollo ---
+
+# Obtener el mejor valor de max_depth determinado por GridSearchCV.
+mejor_max_depth = grid_search.best_params_['max_depth']
+
+# Inicializar y entrenar el modelo de Árbol de Decisión final.
+# Este modelo se entrena con TODOS los datos del conjunto de desarrollo (X_dev, y_dev).
+# Esto asegura que el modelo final aprenda de la mayor cantidad de datos posible antes de la evaluación final.
+final_model = DecisionTreeClassifier(max_depth=mejor_max_depth, random_state=42)
+final_model.fit(X_dev, y_dev)
+
+print(f"\nModelo final entrenado con max_depth = {mejor_max_depth} en el conjunto de desarrollo completo.")
+
+# --- Paso 4: Evaluar el modelo en el conjunto held-out ---
+
+# Realizar predicciones en el conjunto held-out.
+# Esta es la evaluación imparcial del rendimiento del modelo en datos no vistos.
+y_pred_heldout = final_model.predict(X_heldout)
+
+# Calcular la exactitud en el conjunto held-out.
+accuracy_heldout = accuracy_score(y_heldout, y_pred_heldout)
+print(f"Exactitud final en el conjunto held-out: {accuracy_heldout:.4f}")
+
+# --- Paso 5: Matriz de confusión y reporte de clasificación ---
+
+# Calcular la matriz de confusión.
+conf_matrix = confusion_matrix(y_heldout, y_pred_heldout)
+
+# Visualizar la matriz de confusión con nombres de clases.
+plt.figure(figsize=(10, 8)) # Aumentar el tamaño para mejor visualización de etiquetas
+sns.heatmap(
+    conf_matrix,
+    annot=True,     # Mostrar los valores en las celdas
+    fmt="d",        # Formato de los números como enteros
+    cmap="Blues",   # Mapa de color
+    xticklabels=class_names, # Etiquetas del eje X (predicciones)
+    yticklabels=class_names  # Etiquetas del eje Y (valores reales)
+)
+plt.title("Matriz de Confusión - Árbol de Decisión (Conjunto Held-out)", fontsize=16)
+plt.xlabel("Clase Predicha", fontsize=12)
+plt.ylabel("Clase Real", fontsize=12)
+plt.tight_layout() # Ajusta el layout para que las etiquetas no se corten
+plt.show()
+
+# Análisis de la matriz de confusión
+print("\n--- Análisis de la Matriz de Confusión ---")
+print("Observa los valores fuera de la diagonal principal. Estos indican las clases que el modelo confunde.")
+print("Por ejemplo, un valor alto en la fila 'X' y columna 'Y' significa que muchas instancias de la clase 'X' real")
+print("fueron incorrectamente predichas como clase 'Y'.")
+print("\nRelaciona estos resultados con la similitud visual observada en el Ejercicio 1 (Análisis Exploratorio).")
+print("¿Las clases que el modelo confunde más son aquellas que visualmente son más similares?")
+
+# Reporte de Clasificación detallado (precisión, recall, f1-score por clase)
+print("\n--- Reporte de Clasificación en el conjunto held-out ---")
+print(classification_report(y_heldout, y_pred_heldout, target_names=class_names))
+
+print("\nEste reporte proporciona métricas detalladas para cada clase, lo cual es útil para")
+print("entender el rendimiento del modelo en clases específicas, especialmente si alguna estuviera desbalanceada.")
 # %%
