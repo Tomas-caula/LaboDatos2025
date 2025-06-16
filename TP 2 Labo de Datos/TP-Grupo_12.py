@@ -268,11 +268,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 
 # Cargar el dataset completo (todas las clases de Fashion-MNIST)
 # Asegúrate de que el archivo 'Fashion-MNIST.csv' esté en el mismo directorio que tu script.
-try:
-    data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
-except FileNotFoundError:
-    print("Error: 'Fashion-MNIST.csv' no encontrado. Asegúrate de que el archivo esté en el directorio correcto.")
-    exit() # Sale del script si el archivo no se encuentra
+data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
+
 
 # Separar características (X) y etiquetas (y)
 # Normalizar los valores de los píxeles de 0-255 a 0-1.0 para mejorar el rendimiento del modelo.
@@ -282,16 +279,16 @@ y = data_df['label'].astype(int) # Asegurar que las etiquetas sean enteros
 # Definir los nombres de las clases para una mejor interpretación de los resultados
 # ¡IMPORTANTE! Revisa la documentación de Fashion-MNIST para confirmar estos nombres si es necesario.
 class_names = [
-    "T-shirt/top",  # Clase 0
-    "Trouser",      # Clase 1
-    "Pullover",     # Clase 2
-    "Dress",        # Clase 3
-    "Coat",         # Clase 4
-    "Sandal",       # Clase 5
-    "Shirt",        # Clase 6
-    "Sneaker",      # Clase 7
-    "Bag",          # Clase 8
-    "Ankle boot"    # Clase 9
+    "T-shirt/top",  
+    "Trouser",      
+    "Pullover",    
+    "Dress",
+    "Coat",        
+    "Sandal",      
+    "Shirt",     
+    "Sneaker",      
+    "Bag",      
+    "Ankle boot"   
 ]
 
 # --- Paso 1: División en conjunto de desarrollo y held-out ---
@@ -339,9 +336,8 @@ grid_search = GridSearchCV(dt, param_grid, cv=cv, scoring='accuracy', n_jobs=-1)
 grid_search.fit(X_dev, y_dev)
 
 # Imprimir los resultados del mejor hiperparámetro encontrado
-print("\n--- Resultados de la Selección de Hiperparámetros ---")
-print("Mejor max_depth:", grid_search.best_params_['max_depth'])
-print(f"Mejor exactitud promedio (validación cruzada): {grid_search.best_score_:.4f}")
+#print("Mejor max_depth:", grid_search.best_params_['max_depth'])
+#print(f"Mejor exactitud promedio (validación cruzada): {grid_search.best_score_:.4f}")
 
 # Visualizar la exactitud promedio de la validación cruzada para cada max_depth
 results = pd.DataFrame(grid_search.cv_results_)
@@ -388,8 +384,8 @@ plt.figure(figsize=(10, 8)) # Aumentar el tamaño para mejor visualización de e
 sns.heatmap(
     conf_matrix,
     annot=True,     # Mostrar los valores en las celdas
-    fmt="d",        # Formato de los números como enteros
-    cmap="Blues",   # Mapa de color
+    fmt="d",   
+    cmap="Blues", 
     xticklabels=class_names, # Etiquetas del eje X (predicciones)
     yticklabels=class_names  # Etiquetas del eje Y (valores reales)
 )
@@ -399,18 +395,5 @@ plt.ylabel("Clase Real", fontsize=12)
 plt.tight_layout() # Ajusta el layout para que las etiquetas no se corten
 plt.show()
 
-# Análisis de la matriz de confusión
-print("\n--- Análisis de la Matriz de Confusión ---")
-print("Observa los valores fuera de la diagonal principal. Estos indican las clases que el modelo confunde.")
-print("Por ejemplo, un valor alto en la fila 'X' y columna 'Y' significa que muchas instancias de la clase 'X' real")
-print("fueron incorrectamente predichas como clase 'Y'.")
-print("\nRelaciona estos resultados con la similitud visual observada en el Ejercicio 1 (Análisis Exploratorio).")
-print("¿Las clases que el modelo confunde más son aquellas que visualmente son más similares?")
-
-# Reporte de Clasificación detallado (precisión, recall, f1-score por clase)
-print("\n--- Reporte de Clasificación en el conjunto held-out ---")
 print(classification_report(y_heldout, y_pred_heldout, target_names=class_names))
-
-print("\nEste reporte proporciona métricas detalladas para cada clase, lo cual es útil para")
-print("entender el rendimiento del modelo en clases específicas, especialmente si alguna estuviera desbalanceada.")
 # %%
