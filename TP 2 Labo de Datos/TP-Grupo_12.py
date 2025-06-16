@@ -261,13 +261,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split, GridSearchCV, KFold, StratifiedKFold # Importar StratifiedKFold
+from sklearn.model_selection import train_test_split, GridSearchCV, KFold, StratifiedKFold
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 # --- Paso 0: Cargar y preparar el dataset ---
 
-# Cargar el dataset completo (todas las clases de Fashion-MNIST)
-# Asegúrate de que el archivo 'Fashion-MNIST.csv' esté en el mismo directorio que tu script.
 data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
 
 
@@ -277,7 +275,6 @@ X = data_df.drop('label', axis=1) / 255.0
 y = data_df['label'].astype(int) # Asegurar que las etiquetas sean enteros
 
 # Definir los nombres de las clases para una mejor interpretación de los resultados
-# ¡IMPORTANTE! Revisa la documentación de Fashion-MNIST para confirmar estos nombres si es necesario.
 class_names = [
     "T-shirt/top",  
     "Trouser",      
@@ -291,12 +288,10 @@ class_names = [
     "Ankle boot"   
 ]
 
-# --- Paso 1: División en conjunto de desarrollo y held-out ---
+# Paso 1: División en conjunto de desarrollo y held-out ->
 
 # Dividir los datos en un conjunto de desarrollo (para entrenamiento y validación cruzada)
 # y un conjunto held-out (para evaluación final imparcial).
-# test_size=0.2 significa que el 20% de los datos se usará para held-out, 80% para desarrollo.
-# random_state asegura que la división sea reproducible.
 # stratify=y asegura que la proporción de clases sea la misma en ambos conjuntos (muestreo estratificado).
 X_dev, X_heldout, y_dev, y_heldout = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
@@ -305,37 +300,24 @@ X_dev, X_heldout, y_dev, y_heldout = train_test_split(
 print(f"Tamaño del conjunto de desarrollo: {X_dev.shape[0]} muestras")
 print(f"Tamaño del conjunto held-out: {X_heldout.shape[0]} muestras")
 
-# --- Paso 2: Selección de hiperparámetro max_depth usando validación cruzada ---
+# <- Paso 1: División en conjunto de desarrollo y held-out 
 
-# Definir la cuadrícula de hiperparámetros a probar para 'max_depth'.
-# Se probarán valores de 1 a 10 para la profundidad máxima del árbol.
+#  Paso 2: Selección de hiperparámetro max_depth usando validación cruzada ->
+
 param_grid = {'max_depth': range(1, 11)}
 
-# Configurar la validación cruzada Estratificada K-Fold.
-# n_splits=5 significa que los datos de desarrollo se dividirán en 5 'folds'.
-# shuffle=True aleatoriza los datos antes de dividirlos en folds.
-# random_state asegura que los folds sean los mismos cada vez que ejecutes el código.
-# StratifiedKFold asegura que la proporción de clases sea la misma en cada fold.
-# El enunciado no pide que sea estratificado pero por las dudas y para un mejor rendimiento se estratifica
+# los datos de desarrollo los dividiremos en 5 folds.
+# con StratifiedKFold aseguramos que la proporción de clases sea la misma en cada fold.
+# El enunciado no pide que sea estratificado pero por las dudas y para un mejor rendimiento se      
 cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-# Inicializar el modelo DecisionTreeClassifier.
-# random_state también para la reproducibilidad de la construcción del árbol.
+# inicializamos el modelo DecisionTreeClassifier.
 dt = DecisionTreeClassifier(random_state=42)
 
-# Configurar GridSearchCV para realizar la búsqueda del mejor hiperparámetro.
-# dt: el modelo a optimizar.
-# param_grid: los hiperparámetros y sus valores a probar.
-# cv: la estrategia de validación cruzada.
-# scoring='accuracy': la métrica utilizada para evaluar cada combinación de hiperparámetros.
-# n_jobs=-1: usa todos los núcleos de la CPU para acelerar el proceso.
 grid_search = GridSearchCV(dt, param_grid, cv=cv, scoring='accuracy', n_jobs=-1)
 
-# Entrenar GridSearchCV en el conjunto de desarrollo.
-# Esto realizará la validación cruzada internamente para cada max_depth.
 grid_search.fit(X_dev, y_dev)
 
-# Imprimir los resultados del mejor hiperparámetro encontrado
 #print("Mejor max_depth:", grid_search.best_params_['max_depth'])
 #print(f"Mejor exactitud promedio (validación cruzada): {grid_search.best_score_:.4f}")
 
@@ -351,20 +333,25 @@ plt.xticks(range(1, 11)) # Asegura que todos los valores de 1 a 10 estén en el 
 plt.tight_layout()
 plt.show()
 
-# --- Paso 3: Entrenar el modelo final con el mejor max_depth en todo el conjunto de desarrollo ---
+
+#<- Paso 2: Selección de hiperparámetro max_depth usando validación cruzada
+
+#Paso 3: Entrenar el modelo final con el mejor max_depth en todo el conjunto de desarrollo ->
 
 # Obtener el mejor valor de max_depth determinado por GridSearchCV.
 mejor_max_depth = grid_search.best_params_['max_depth']
 
 # Inicializar y entrenar el modelo de Árbol de Decisión final.
-# Este modelo se entrena con TODOS los datos del conjunto de desarrollo (X_dev, y_dev).
-# Esto asegura que el modelo final aprenda de la mayor cantidad de datos posible antes de la evaluación final.
+# este modelo lo entrenamo con TODOS los datos del conjunto de desarrollo (X_dev, y_dev).
+# PAra  asegurarnos que el modelo final aprenda de la mayor cantidad de datos posible antes de la evaluación final.
 final_model = DecisionTreeClassifier(max_depth=mejor_max_depth, random_state=42)
 final_model.fit(X_dev, y_dev)
 
 print(f"\nModelo final entrenado con max_depth = {mejor_max_depth} en el conjunto de desarrollo completo.")
 
-# --- Paso 4: Evaluar el modelo en el conjunto held-out ---
+#<- Paso 3: Entrenar el modelo final con el mejor max_depth en todo el conjunto de desarrollo 
+
+# Paso 4: Evaluar el modelo en el conjunto held-out ->
 
 # Realizar predicciones en el conjunto held-out.
 # Esta es la evaluación imparcial del rendimiento del modelo en datos no vistos.
@@ -372,9 +359,11 @@ y_pred_heldout = final_model.predict(X_heldout)
 
 # Calcular la exactitud en el conjunto held-out.
 accuracy_heldout = accuracy_score(y_heldout, y_pred_heldout)
-print(f"Exactitud final en el conjunto held-out: {accuracy_heldout:.4f}")
+#print(f"Exactitud held-out: {accuracy_heldout:.4f}")
 
-# --- Paso 5: Matriz de confusión y reporte de clasificación ---
+#<- Paso 4: Evaluar el modelo en el conjunto held-out
+
+# Paso 5: Matriz de confusión y reporte de clasificación ->
 
 # Calcular la matriz de confusión.
 conf_matrix = confusion_matrix(y_heldout, y_pred_heldout)
