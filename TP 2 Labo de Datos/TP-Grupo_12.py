@@ -49,8 +49,21 @@ for clase in range(10):
     # Calcular la desviacion estandar de cada pixel para esta clase
     std_pixel_clase = np.std(X_clase, axis=0).values.reshape(28, 28)
     
-    # Guardar en el diccionario
     
+
+    #if clase in [0, 8]:
+        # Obtener los índices de los 5 valores más altos y más bajos
+    #    indices_max = np.argsort(std_pixel_clase.flatten())[-5:]
+    #    indices_min = np.argsort(std_pixel_clase.flatten())[:5]
+        
+    #    print(f"\nClase {clase}:")
+    #    print("5 atributos con mayor desviación estándar:")
+    #    for idx in indices_max:
+    #        print(f"Atributo {idx}: {std_pixel_clase.flatten()[idx]:.4f}")
+            
+    #    print("\n5 atributos con menor desviación estándar:")
+    #    for idx in indices_min:
+    #        print(f"Atributo {idx}: {std_pixel_clase.flatten()[idx]:.4f}")
     # Visualizacion
     plt.figure(figsize=(4, 4))
     sns.heatmap(std_pixel_clase, cmap='viridis', cbar=True)
@@ -108,7 +121,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
-
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import metrics
 # Cargar el dataset
 data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
 
@@ -164,15 +178,16 @@ def evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos, k=3):
 
 # Definimos todos los subconjuntos de atributos que vamos a usar -> 
 subconjuntos_3_atributos = {
-    'Subconjunto 1': [0, 1, 2],  # Primeros 3 pixeles
-    'Subconjunto 2': [200, 300, 400],  # Pixeles del medio
-    'Subconjunto 3': [781, 782, 783],  # Ultimos 3 pixeles
+    'Subconjunto 1': [329, 302, 314],  # Primeros 3 pixeles
+    'Subconjunto 2': [0, 756, 28],  # Pixeles del medio
+    'Subconjunto 3': [741, 740, 737],  # Ultimos 3 pixeles
+    'Subconjunto 4': [0,1,27],  # Todos los pixeles
 }
 
-subconjuntos_5_atributos = {
-    'Subconjunto 1': [0, 1, 2, 3, 4],
-    'Subconjunto 2': [100, 200, 300, 400, 500],
-    'Subconjunto 3': [779, 780, 781, 782, 783],
+subconjuntos_6_atributos = {
+   'Subconjunto 1': [329, 302, 314, 741, 740, 737],  # Mas importantes
+   'Subconjunto 2': [0, 756, 28,0,1,27],  # Menos importantes
+
 }
 
 # <- Definimos todos los subconjuntos de atributos que vamos a usar
@@ -184,7 +199,7 @@ for nombre, accuracy in resultados_3.items():
     print(f"{nombre}: {accuracy:.4f}")
 
 # Evaluamos subconjuntos de 5 atributos
-resultados_5 = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_5_atributos)
+resultados_5 = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_6_atributos)
 print("\nResultados para subconjuntos de 5 atributos:")
 for nombre, accuracy in resultados_5.items():
     print(f"{nombre}: {accuracy:.4f}")
@@ -213,7 +228,7 @@ plt.ylabel('Precision')
 const_k = [1, 3, 5, 7, 9]
 # Almacenar resultados para graficar
 resultados_3_atributos = {k: {} for k in const_k}
-resultados_5_atributos = {k: {} for k in const_k}
+resultados_6_atributos = {k: {} for k in const_k}
 
 # Evaluamos y almacenamos resultados para 3 atributos
 for k in const_k:
@@ -222,8 +237,8 @@ for k in const_k:
 
 # Evaluamos y almacenamos resultados para 5 atributos
 for k in const_k:
-    resultados_k = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_5_atributos, k)
-    resultados_5_atributos[k] = resultados_k
+    resultados_k = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_6_atributos, k)
+    resultados_6_atributos[k] = resultados_k
 
 # Crear grafico
 plt.figure(figsize=(15, 6))
@@ -242,8 +257,8 @@ plt.grid(True)
 
 # Grafico para 5 atributos
 plt.subplot(1, 2, 2)
-for subconjunto in subconjuntos_5_atributos.keys():
-    valores = [resultados_5_atributos[k][subconjunto] for k in const_k]
+for subconjunto in subconjuntos_6_atributos.keys():
+    valores = [resultados_6_atributos[k][subconjunto] for k in const_k]
     plt.plot(const_k, valores, marker='o', label=subconjunto)
 plt.title('Precision vs k para 5 atributos')
 plt.xlabel('Valor de k')
