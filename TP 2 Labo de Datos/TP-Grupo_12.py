@@ -18,9 +18,6 @@ from sklearn.metrics import accuracy_score
 # Ejercicio 1
 data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
 
-print(data_df.shape) # Numero de filas y columnas
-print(data_df.head())  # Primeras filas del dataset
-
 print(data_df['label'].value_counts()) # Cantidad de imagenes por clase
 #print(data_df.isnull().sum())  # Verificar si hay valores nulos
 
@@ -120,21 +117,22 @@ data_df_0_8 = data_df[data_df['label'].isin([0, 8])]
 
 # Analisis del balance de clases
 
-    #conteo_clases = data_df_0_8['label'].value_counts()
-    #print(conteo_clases)
+conteo_clases = data_df_0_8['label'].value_counts()
+print(conteo_clases)
 
-    #porcentaje_clases = (conteo_clases / len(data_df_0_8)) * 100
-    #print(porcentaje_clases)
+porcentaje_clases = (conteo_clases / len(data_df_0_8)) * 100
+print(porcentaje_clases)
 
 #Aca pudiomos observar que las clases estan balanceadas, por lo que no es necesario balancearlas
 
-# Visualizar el balance de clases
-    #plt.figure()
-    #sns.countplot(data=data_df_0_8, x='label')
-    #plt.title('Distribucion de clases 0 y 8')
-    #plt.xlabel('Clase')
-    #plt.ylabel('Cantidad de imagenes')
-#plt.show()
+#Visualizar el balance de clases
+ 
+plt.figure()
+sns.countplot(data=data_df_0_8, x='label')
+plt.title('Distribucion de clases 0 y 8')
+plt.xlabel('Clase')
+plt.ylabel('Cantidad de imagenes')
+plt.show()
 
 # Separar caracteristicas (X) y etiquetas (y)
 X = data_df_0_8.drop('label', axis=1)
