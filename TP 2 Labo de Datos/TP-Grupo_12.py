@@ -1,3 +1,9 @@
+#Grupo TP02 - 12
+#Francisco Catri
+#Ioel Failenbogen
+#Tomas Benjamin Caula
+#Codigo completo del TP 2 de Laboratorio de Datos
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,7 +15,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV, KFold
 from sklearn.metrics import accuracy_score
 
-# 1 - Analisis Exploratorio del Dataset
+# Ejercicio 1
 data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
 
 print(data_df.shape) # Numero de filas y columnas
@@ -18,7 +24,7 @@ print(data_df.head())  # Primeras filas del dataset
 print(data_df['label'].value_counts()) # Cantidad de imagenes por clase
 #print(data_df.isnull().sum())  # Verificar si hay valores nulos
 
-# Asignar X e Y correctamente
+# Asignar X e Y
 y = data_df['label'].astype(int)
 X = data_df.drop('label', axis=1)
 
@@ -28,13 +34,13 @@ X = X / 255.0
 # Calcular desviacion estandar por pixel
 std_por_pixel = np.std(X, axis=0).values  # .values para convertir de pandas Series a NumPy array
 
-# Reshape (784 → 28x28)
+# Reshape
 std_image = std_por_pixel.reshape(28, 28)
 
 # Visualizar
 plt.figure(figsize=(6, 6))
 sns.heatmap(std_image, cmap='viridis', cbar=True)
-plt.title('Desviación estándar por píxel (dataset completo)')
+plt.title('Desviacion estandar por pixel (dataset completo)')
 plt.axis('off')
 plt.show()
 
@@ -47,36 +53,35 @@ for clase in range(10):
     std_pixel_clase = np.std(X_clase, axis=0).values.reshape(28, 28)
     
     # Guardar en el diccionario
-    #stds_por_clase[clase] = std_pixel_clase
     
     # Visualizacion
     plt.figure(figsize=(4, 4))
     sns.heatmap(std_pixel_clase, cmap='viridis', cbar=True)
-    plt.title(f'Desviación estándar - Clase {clase}')
+    plt.title(f'Desviacion estandar - Clase {clase}')
     plt.axis('off')
     plt.show()
 
-# Diccionario para guardar imágenes promedio por clase
+# Diccionario para guardar imagenes promedio por clase
 promedios_por_clase = {}
 
 for clase in range(10):
-    # Filtrar imágenes de la clase actual
+    # Filtrar imagenes de la clase actual
     X_clase = X[y == clase]
 
-    # Calcular el promedio por píxel (valor medio en cada posición)
+    # Calcular el promedio por pixel (valor medio en cada posicion)
     promedio_pixel_clase = np.mean(X_clase, axis=0).values.reshape(28, 28)
 
     # Guardar en el diccionario
     promedios_por_clase[clase] = promedio_pixel_clase
 
-    # Visualización
+    # Visualizacion
     plt.figure(figsize=(4, 4))
     sns.heatmap(promedio_pixel_clase, cmap='gray', cbar=False)
     plt.title(f'Imagen promedio - Clase {clase}')
     plt.axis('off')
     plt.show()
 
-# Crear matriz 10x10 para guardar distancias entre imágenes promedio
+# Crear matriz 10x10 para guardar distancias entre imagenes promedio
 dist_matrix = np.zeros((10, 10))
 
 for i in range(10):
@@ -93,7 +98,7 @@ for i in range(10):
 # Visualizar la matriz de distancias
 plt.figure(figsize=(8, 6))
 sns.heatmap(dist_matrix, annot=True, fmt=".2f", cmap="magma", xticklabels=range(10), yticklabels=range(10))
-plt.title("Distancia Euclidiana entre imágenes promedio de cada clase")
+plt.title("Distancia Euclidiana entre imagenes promedio de cada clase")
 plt.xlabel("Clase")
 plt.ylabel("Clase")
 plt.show()
@@ -113,7 +118,7 @@ data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
 # Crear subconjunto with solo las clases 0 y 8
 data_df_0_8 = data_df[data_df['label'].isin([0, 8])]
 
-# Análisis del balance de clases
+# Analisis del balance de clases
 
     #conteo_clases = data_df_0_8['label'].value_counts()
     #print(conteo_clases)
@@ -123,23 +128,22 @@ data_df_0_8 = data_df[data_df['label'].isin([0, 8])]
 
 #Aca pudiomos observar que las clases estan balanceadas, por lo que no es necesario balancearlas
 
-
 # Visualizar el balance de clases
     #plt.figure()
     #sns.countplot(data=data_df_0_8, x='label')
-    #plt.title('Distribución de clases 0 y 8')
+    #plt.title('Distribucion de clases 0 y 8')
     #plt.xlabel('Clase')
-    #plt.ylabel('Cantidad de imágenes')
+    #plt.ylabel('Cantidad de imagenes')
 #plt.show()
 
-# Separar características (X) y etiquetas (y)
+# Separar caracteristicas (X) y etiquetas (y)
 X = data_df_0_8.drop('label', axis=1)
 y = data_df_0_8['label']
 
 # Crear conjunto de entrenamiento (70%) y prueba (30%)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1, stratify=y)
 
-# Función para evaluar diferentes subconjuntos de atributos
+# Funcion para evaluar diferentes subconjuntos de atributos
 def evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos, k=3):
     resultados = {}
     
@@ -162,9 +166,9 @@ def evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos, k=3):
 
 # Definimos todos los subconjuntos de atributos que vamos a usar -> 
 subconjuntos_3_atributos = {
-    'Subconjunto 1': [0, 1, 2],  # Primeros 3 píxeles
-    'Subconjunto 2': [200, 300, 400],  # Píxeles del medio
-    'Subconjunto 3': [781, 782, 783],  # Últimos 3 píxeles
+    'Subconjunto 1': [0, 1, 2],  # Primeros 3 pixeles
+    'Subconjunto 2': [200, 300, 400],  # Pixeles del medio
+    'Subconjunto 3': [781, 782, 783],  # Ultimos 3 pixeles
 }
 
 subconjuntos_5_atributos = {
@@ -175,34 +179,34 @@ subconjuntos_5_atributos = {
 
 # <- Definimos todos los subconjuntos de atributos que vamos a usar
 
-# Evaluar subconjuntos de 3 atributos
+# Evaluamos subconjuntos de 3 atributos
 resultados_3 = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_3_atributos)
 print("\nResultados para subconjuntos de 3 atributos:")
 for nombre, accuracy in resultados_3.items():
     print(f"{nombre}: {accuracy:.4f}")
 
-# Evaluar subconjuntos de 5 atributos
+# Evaluamos subconjuntos de 5 atributos
 resultados_5 = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_5_atributos)
 print("\nResultados para subconjuntos de 5 atributos:")
 for nombre, accuracy in resultados_5.items():
     print(f"{nombre}: {accuracy:.4f}")
 
-# Visualizar resultados
+# Visualizamos resultados
 plt.figure(figsize=(12, 6))
 
-# Gráfico para 3 atributos
+# Grafico para 3 atributos
 plt.subplot(1, 2, 1)
 plt.bar(resultados_3.keys(), resultados_3.values())
-plt.title('Precisión con 3 atributos')
+plt.title('Precision con 3 atributos')
 plt.xticks(rotation=45)
-plt.ylabel('Precisión')
+plt.ylabel('Precision')
 
-# Gráfico para 5 atributos
+# Grafico para 5 atributos
 plt.subplot(1, 2, 2)
 plt.bar(resultados_5.keys(), resultados_5.values())
-plt.title('Precisión con 5 atributos')
+plt.title('Precision con 5 atributos')
 plt.xticks(rotation=45)
-plt.ylabel('Precisión')
+plt.ylabel('Precision')
 
 
 
@@ -213,39 +217,39 @@ const_k = [1, 3, 5, 7, 9]
 resultados_3_atributos = {k: {} for k in const_k}
 resultados_5_atributos = {k: {} for k in const_k}
 
-# Evaluar y almacenar resultados para 3 atributos
+# Evaluamos y almacenamos resultados para 3 atributos
 for k in const_k:
     resultados_k = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_3_atributos, k)
     resultados_3_atributos[k] = resultados_k
 
-# Evaluar y almacenar resultados para 5 atributos
+# Evaluamos y almacenamos resultados para 5 atributos
 for k in const_k:
     resultados_k = evaluar_subconjuntos(X_train, X_test, y_train, y_test, subconjuntos_5_atributos, k)
     resultados_5_atributos[k] = resultados_k
 
-# Crear gráfico
+# Crear grafico
 plt.figure(figsize=(15, 6))
 
-# Gráfico para 3 atributos
+# Grafico para 3 atributos
 plt.subplot(1, 2, 1)
 for subconjunto in subconjuntos_3_atributos.keys():
     valores = [resultados_3_atributos[k][subconjunto] for k in const_k]
     plt.plot(const_k, valores, marker='o', label=subconjunto)
-plt.title('Precisión vs k para 3 atributos')
+plt.title('Precision vs k para 3 atributos')
 plt.xlabel('Valor de k')
-plt.ylabel('Precisión')
+plt.ylabel('Precision')
 plt.legend()
 plt.grid(True)
 
 
-# Gráfico para 5 atributos
+# Grafico para 5 atributos
 plt.subplot(1, 2, 2)
 for subconjunto in subconjuntos_5_atributos.keys():
     valores = [resultados_5_atributos[k][subconjunto] for k in const_k]
     plt.plot(const_k, valores, marker='o', label=subconjunto)
-plt.title('Precisión vs k para 5 atributos')
+plt.title('Precision vs k para 5 atributos')
 plt.xlabel('Valor de k')
-plt.ylabel('Precisión')
+plt.ylabel('Precision')
 plt.legend()
 plt.grid(True)
 
@@ -269,12 +273,12 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 data_df = pd.read_csv("Fashion-MNIST.csv", index_col=0)
 
 
-# Separar características (X) y etiquetas (y)
-# Normalizar los valores de los píxeles de 0-255 a 0-1.0 para mejorar el rendimiento del modelo.
+# Separar caracteristicas (X) y etiquetas (y)
+# Normalizar los valores de los pixeles de 0-255 a 0-1.0 para mejorar el rendimiento del modelo.
 X = data_df.drop('label', axis=1) / 255.0
 y = data_df['label'].astype(int) # Asegurar que las etiquetas sean enteros
 
-# Definir los nombres de las clases para una mejor interpretación de los resultados
+# Definir los nombres de las clases para una mejor interpretacion de los resultados
 class_names = [
     "T-shirt/top",  
     "Trouser",      
@@ -288,11 +292,11 @@ class_names = [
     "Ankle boot"   
 ]
 
-# Paso 1: División en conjunto de desarrollo y held-out ->
+# Paso 1: Division en conjunto de desarrollo y held-out ->
 
-# Dividir los datos en un conjunto de desarrollo (para entrenamiento y validación cruzada)
-# y un conjunto held-out (para evaluación final imparcial).
-# stratify=y asegura que la proporción de clases sea la misma en ambos conjuntos (muestreo estratificado).
+# Dividir los datos en un conjunto de desarrollo (para entrenamiento y validacion cruzada)
+# y un conjunto held-out (para evaluacion final imparcial).
+# stratify=y asegura que la proporcion de clases sea la misma en ambos conjuntos (muestreo estratificado).
 X_dev, X_heldout, y_dev, y_heldout = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
@@ -300,18 +304,18 @@ X_dev, X_heldout, y_dev, y_heldout = train_test_split(
 print(f"Tamaño del conjunto de desarrollo: {X_dev.shape[0]} muestras")
 print(f"Tamaño del conjunto held-out: {X_heldout.shape[0]} muestras")
 
-# <- Paso 1: División en conjunto de desarrollo y held-out 
+# <- Paso 1: Division en conjunto de desarrollo y held-out 
 
-#  Paso 2: Selección de hiperparámetro max_depth usando validación cruzada ->
+#  Paso 2: Seleccion de hiperparametro max_depth usando validacion cruzada ->
 
 param_grid = {'max_depth': range(1, 11)}
 
-# los datos de desarrollo los dividiremos en 5 folds.
-# con StratifiedKFold aseguramos que la proporción de clases sea la misma en cada fold.
+# Los datos de desarrollo los dividiremos en 5 folds.
+# Con StratifiedKFold aseguramos que la proporcion de clases sea la misma en cada fold.
 # El enunciado no pide que sea estratificado pero por las dudas y para un mejor rendimiento se      
 cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-# inicializamos el modelo DecisionTreeClassifier.
+# Iinicializamos el modelo DecisionTreeClassifier.
 dt = DecisionTreeClassifier(random_state=42)
 
 grid_search = GridSearchCV(dt, param_grid, cv=cv, scoring='accuracy', n_jobs=-1)
@@ -319,31 +323,31 @@ grid_search = GridSearchCV(dt, param_grid, cv=cv, scoring='accuracy', n_jobs=-1)
 grid_search.fit(X_dev, y_dev)
 
 #print("Mejor max_depth:", grid_search.best_params_['max_depth'])
-#print(f"Mejor exactitud promedio (validación cruzada): {grid_search.best_score_:.4f}")
+#print(f"Mejor exactitud promedio (validacion cruzada): {grid_search.best_score_:.4f}")
 
-# Visualizar la exactitud promedio de la validación cruzada para cada max_depth
+# Visualizar la exactitud promedio de la validacion cruzada para cada max_depth
 results = pd.DataFrame(grid_search.cv_results_)
 plt.figure(figsize=(10, 6))
 plt.plot(results['param_max_depth'], results['mean_test_score'], marker='o', linestyle='-')
-plt.title('Exactitud Promedio de Validación Cruzada vs. Max Depth', fontsize=16)
-plt.xlabel('Max Depth (Profundidad Máxima del Árbol)', fontsize=12)
-plt.ylabel('Exactitud Promedio (Validación Cruzada)', fontsize=12)
+plt.title('Exactitud Promedio de Validacion Cruzada vs. Max Depth', fontsize=16)
+plt.xlabel('Max Depth (Profundidad Maxima del arbol)', fontsize=12)
+plt.ylabel('Exactitud Promedio (Validacion Cruzada)', fontsize=12)
 plt.grid(True, linestyle='--', alpha=0.7)
-plt.xticks(range(1, 11)) # Asegura que todos los valores de 1 a 10 estén en el eje X
+plt.xticks(range(1, 11)) # Asegura que todos los valores de 1 a 10 esten en el eje X
 plt.tight_layout()
 plt.show()
 
 
-#<- Paso 2: Selección de hiperparámetro max_depth usando validación cruzada
+#<- Paso 2: Seleccion de hiperparametro max_depth usando validacion cruzada
 
 #Paso 3: Entrenar el modelo final con el mejor max_depth en todo el conjunto de desarrollo ->
 
 # Obtener el mejor valor de max_depth determinado por GridSearchCV.
 mejor_max_depth = grid_search.best_params_['max_depth']
 
-# Inicializar y entrenar el modelo de Árbol de Decisión final.
+# Inicializar y entrenar el modelo de arbol de Decision final.
 # este modelo lo entrenamo con TODOS los datos del conjunto de desarrollo (X_dev, y_dev).
-# PAra  asegurarnos que el modelo final aprenda de la mayor cantidad de datos posible antes de la evaluación final.
+# PAra  asegurarnos que el modelo final aprenda de la mayor cantidad de datos posible antes de la evaluacion final.
 final_model = DecisionTreeClassifier(max_depth=mejor_max_depth, random_state=42)
 final_model.fit(X_dev, y_dev)
 
@@ -354,7 +358,7 @@ print(f"\nModelo final entrenado con max_depth = {mejor_max_depth} en el conjunt
 # Paso 4: Evaluar el modelo en el conjunto held-out ->
 
 # Realizar predicciones en el conjunto held-out.
-# Esta es la evaluación imparcial del rendimiento del modelo en datos no vistos.
+# Esta es la evaluacion imparcial del rendimiento del modelo en datos no vistos.
 y_pred_heldout = final_model.predict(X_heldout)
 
 # Calcular la exactitud en el conjunto held-out.
@@ -363,13 +367,13 @@ accuracy_heldout = accuracy_score(y_heldout, y_pred_heldout)
 
 #<- Paso 4: Evaluar el modelo en el conjunto held-out
 
-# Paso 5: Matriz de confusión y reporte de clasificación ->
+# Paso 5: Matriz de confusion y reporte de clasificacion ->
 
-# Calcular la matriz de confusión.
+# Calcular la matriz de confusion.
 conf_matrix = confusion_matrix(y_heldout, y_pred_heldout)
 
-# Visualizar la matriz de confusión con nombres de clases.
-plt.figure(figsize=(10, 8)) # Aumentar el tamaño para mejor visualización de etiquetas
+# Visualizar la matriz de confusion con nombres de clases.
+plt.figure(figsize=(10, 8)) # Aumentar el tamaño para mejor visualizacion de etiquetas
 sns.heatmap(
     conf_matrix,
     annot=True,     # Mostrar los valores en las celdas
@@ -378,7 +382,7 @@ sns.heatmap(
     xticklabels=class_names, # Etiquetas del eje X (predicciones)
     yticklabels=class_names  # Etiquetas del eje Y (valores reales)
 )
-plt.title("Matriz de Confusión - Árbol de Decisión (Conjunto Held-out)", fontsize=16)
+plt.title("Matriz de Confusion - arbol de Decision (Conjunto Held-out)", fontsize=16)
 plt.xlabel("Clase Predicha", fontsize=12)
 plt.ylabel("Clase Real", fontsize=12)
 plt.tight_layout() # Ajusta el layout para que las etiquetas no se corten
